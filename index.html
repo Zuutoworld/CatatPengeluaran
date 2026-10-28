@@ -458,6 +458,23 @@
         letter-spacing: -0.2px;
       }
 
+      .head-actions {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .head-actions .icon-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+      }
+
+      .head-actions .icon-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+
       .link {
         font-size: 12px;
         font-weight: 700;
@@ -1657,7 +1674,29 @@
         <section class="view" id="view-history" hidden>
           <div class="section-head">
             <h2 data-i18n="history">Riwayat</h2>
-            <span class="setting-desc" id="historyCount">0 transaksi</span>
+            <div class="head-actions">
+              <span class="setting-desc" id="historyCount">0 transaksi</span>
+              <button
+                class="icon-btn"
+                onclick="shareToWA('filtered')"
+                aria-label="Kirim ke WhatsApp"
+                data-i18n-aria-label="shareWA"
+                title="Kirim ke WhatsApp"
+                data-i18n-title="shareWA"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 21l2.2-5.2A8.4 8.4 0 1121 11.5z" />
+                  <path d="M8.5 9.5c.4 2.6 2.4 4.6 5 5l1.2-1.2 1.8.8" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div class="search-row">
@@ -1774,8 +1813,8 @@
                 />
               </svg>
             </button>
-            <button class="setting-btn" onclick="shareToWA()">
-              <span data-i18n="shareWA">Kirim ke WhatsApp</span>
+            <button class="setting-btn" onclick="shareToWA('all')">
+              <span data-i18n="shareWAAll">Kirim semua data ke WhatsApp</span>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"

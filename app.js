@@ -37,6 +37,13 @@ const translations = {
     languageDesc: 'Indonesia atau English',
     installApp: 'Pasang di layar utama',
     shareWA: 'Kirim ke WhatsApp',
+    shareWAAll: 'Kirim semua data ke WhatsApp',
+    report: 'Laporan',
+    allData: 'Semua data',
+    details: 'Rincian',
+    perDay: 'Per hari',
+    andMore: 'lainnya',
+    noDataShare: 'Tidak ada data untuk dikirim',
     clearData: 'Hapus semua data',
     version: 'Versi',
     footerMsg: 'Data tersimpan di browser kamu',
@@ -122,6 +129,13 @@ const translations = {
     languageDesc: 'Indonesian or English',
     installApp: 'Install to home screen',
     shareWA: 'Send to WhatsApp',
+    shareWAAll: 'Send all data to WhatsApp',
+    report: 'Report',
+    allData: 'All data',
+    details: 'Details',
+    perDay: 'Per day',
+    andMore: 'more',
+    noDataShare: 'No data to send',
     clearData: 'Delete all data',
     version: 'Version',
     footerMsg: 'Data stored in your browser',
@@ -359,6 +373,13 @@ function applyLang() {
     const key = el.getAttribute('data-i18n-aria-label');
     if (translations[currentLang]?.[key] !== undefined) {
       el.setAttribute('aria-label', translations[currentLang][key]);
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (translations[currentLang]?.[key] !== undefined) {
+      el.title = translations[currentLang][key];
     }
   });
 
@@ -1156,24 +1177,29 @@ function closeModal(id) {
 }
 
 // --- Share to WhatsApp ---
-function shareToWA() {
-  const monthExpenses = getExpenses().filter(e => isThisMonth(e.date));
+// scope: 'filtered' = ikut filter aktif di Riwayat, 'all' = seluruh data
+function sharePeriodLabel(f) {
+  if (f.date) return formatDayLabel(f.date);
+  if (f.month) return formatMonthLabel(f.month);
+  if (f.cat && f.cat !== 'all') return categoryLabel(f.cat);
+  if (f.search) return `"${f.search}"`;
+  return t('allData');
+}
 
-  if (monthExpenses.length === 0) {
-    showToast(currentLang === 'id' ? 'Tidak ada data bulan ini' : 'No data this month');
-    return;
-  }
-
-  const now = new Date();
+function buildShareMessage(list, label, singleDate, withDetails) {
   const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
-  const monthLabel = now.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-  const dateLabel = now.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+  const todayLabel = new Date().toLocaleDateString(locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
-  let msg = `💰 *Catat Duit — ${currentLang === 'id' ? 'Laporan' : 'Report'} ${monthLabel}*\n`;
-  msg += `📅 ${dateLabel}\n\n`;
+  let msg = `💰 *Catat Duit — ${t('report')}*\n`;
+  msg += `🗓️ ${label}\n`;
+  msg += `📅 ${todayLabel}\n\n`;
 
   const totals = {};
-  monthExpenses.forEach(e => {
+  list.forEach(e => {
     totals[e.category] = (totals[e.category] || 0) + (Number(e.amount) || 0);
   });
 
@@ -1184,22 +1210,72 @@ function shareToWA() {
     });
 
   msg += `\n━━━━━━━━━━━━━━━━━━\n`;
-  msg += `*TOTAL: ${formatCurrency(sum(monthExpenses))}*\n`;
-  msg += `📊 ${trxCount(monthExpenses.length)}\n\n`;
+  msg += `*TOTAL: ${formatCurrency(sum(list))}*\n`;
+  msg += `📊 ${trxCount(list.length)}\n`;
 
-  const recent = [...monthExpenses]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 5);
+  if (withDetails) {
+    msg += `\n`;
 
-  if (recent.length > 0) {
-    msg += `📋 ${currentLang === 'id' ? 'Transaksi Terakhir' : 'Recent Transactions'}:\n`;
-    recent.forEach(e => {
-      const dt = parseDateStr(e.date);
-      msg += `• ${dt.getDate()}/${dt.getMonth() + 1} — ${e.note || categoryLabel(e.category)} — ${formatCurrency(e.amount)}\n`;
-    });
+    if (singleDate) {
+      const MAX = 25;
+      msg += `📋 ${t('details')}:\n`;
+      list.slice(0, MAX).forEach(e => {
+        msg += `• ${e.note || categoryLabel(e.category)} — ${formatCurrency(e.amount)}\n`;
+      });
+      if (list.length > MAX) msg += `• … +${list.length - MAX} ${t('andMore')}\n`;
+    } else {
+      const byDay = {};
+      list.forEach(e => {
+        byDay[e.date] = (byDay[e.date] || 0) + (Number(e.amount) || 0);
+      });
+
+      const days = Object.keys(byDay).sort((a, b) => b.localeCompare(a));
+      const MAX = 14;
+      msg += `📋 ${t('perDay')}:\n`;
+      days.slice(0, MAX).forEach(d => {
+        const dt = parseDateStr(d);
+        msg += `• ${dt.getDate()}/${dt.getMonth() + 1} — ${formatCurrency(byDay[d])}\n`;
+      });
+      if (days.length > MAX) msg += `• … +${days.length - MAX} ${t('andMore')}\n`;
+    }
   }
 
   msg += `\n_${currentLang === 'id' ? 'Dikirim dari' : 'Sent from'} Catat Duit 📱`;
+  return msg;
+}
+
+function shareToWA(scope = 'all') {
+  const f = currentFilters();
+  let list;
+  let label;
+  let singleDate = false;
+
+  if (scope === 'filtered') {
+    list = filteredExpenses();
+    label = sharePeriodLabel(f);
+    singleDate = !!f.date;
+  } else {
+    list = [...getExpenses()].sort((a, b) => {
+      if (a.date !== b.date) return b.date.localeCompare(a.date);
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    label = t('allData');
+  }
+
+  if (list.length === 0) {
+    showToast(t('noDataShare'));
+    return;
+  }
+
+  let msg = buildShareMessage(list, label, singleDate, true);
+
+  // Jaga URL wa.me tetap pendek; buang rincian kalau kepanjangan
+  if (msg.length > 1250) {
+    msg = buildShareMessage(list, label, singleDate, false);
+  }
+  if (msg.length > 1250) {
+    msg = `💰 *Catat Duit — ${t('report')}*\n🗓️ ${label}\n\n*TOTAL: ${formatCurrency(sum(list))}*\n📊 ${trxCount(list.length)}`;
+  }
 
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
