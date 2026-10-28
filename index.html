@@ -17,6 +17,15 @@
   <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
   <link rel="icon" href="favicon.ico" sizes="any">
 
+  <script>
+    // Hindari kedip tema terang saat aplikasi dibuka dalam mode gelap
+    try {
+      if (localStorage.getItem('catatduit_theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
   <style>
@@ -71,6 +80,7 @@
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
       line-height: 1.45;
       overscroll-behavior-y: none;
     }
@@ -79,7 +89,7 @@
 
     button, input, select, textarea { font: inherit; color: inherit; }
 
-    button { cursor: pointer; border: 0; background: none; padding: 0; }
+    button { cursor: pointer; border: 0; background: none; padding: 0; touch-action: manipulation; }
 
     h1, h2, h3, p { margin: 0; }
 
