@@ -2,6 +2,8 @@
 
 Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di browser.
 
+🔗 **Live:** https://catat-pengeluaran-ecru.vercel.app
+
 ## Fitur
 
 - ✅ Tambah, edit, hapus pengeluaran
