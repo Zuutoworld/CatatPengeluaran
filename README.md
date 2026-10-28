@@ -24,9 +24,9 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 
 ### Cara 1: Vercel
 
-1. Push ke GitHub
-2. Buka [vercel.com](https://vercel.com)
-3. Import repository
+1. Buka [vercel.com/new](https://vercel.com/new)
+2. Import repository `Zuutoworld/CatatPengeluaran`
+3. Framework Preset: **Other**, Build Command & Output Directory dibiarkan kosong
 4. Deploy! ✅
 
 ### Cara 2: GitHub Pages
@@ -41,6 +41,7 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 ├── index.html      # Halaman utama
 ├── app.js          # Logic aplikasi
 ├── vercel.json     # Config Vercel
+├── .gitignore
 └── README.md       # Dokumentasi
 ```
 
