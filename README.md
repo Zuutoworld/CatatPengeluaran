@@ -27,6 +27,8 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 
 ## Deploy (Gratis!)
 
+Project Vercel sudah terhubung ke repo ini, jadi **setiap push ke branch `main` otomatis deploy** ke production.
+
 ### Cara 1: Vercel
 
 1. Buka [vercel.com/new](https://vercel.com/new)
