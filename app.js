@@ -39,6 +39,8 @@ const translations = {
     shareWA: 'Kirim ke WhatsApp',
     shareWAAll: 'Kirim semua data ke WhatsApp',
     report: 'Laporan',
+    dataLabel: 'Data',
+    pulledLabel: 'Ditarik',
     allData: 'Semua data',
     details: 'Rincian',
     perDay: 'Per hari',
@@ -131,6 +133,8 @@ const translations = {
     shareWA: 'Send to WhatsApp',
     shareWAAll: 'Send all data to WhatsApp',
     report: 'Report',
+    dataLabel: 'Data',
+    pulledLabel: 'Captured',
     allData: 'All data',
     details: 'Details',
     perDay: 'Per day',
@@ -1188,15 +1192,14 @@ function sharePeriodLabel(f) {
 
 function buildShareMessage(list, label, singleDate, withDetails) {
   const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
-  const todayLabel = new Date().toLocaleDateString(locale, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
+  const pulledAt = new Date().toLocaleString(locale, {
+    dateStyle: 'long',
+    timeStyle: 'short',
   });
 
-  let msg = `💰 *Catat Duit — ${t('report')}*\n`;
-  msg += `🗓️ ${label}\n`;
-  msg += `📅 ${todayLabel}\n\n`;
+  let msg = `💰 *Catat Duit — ${t('report')}*\n\n`;
+  msg += `📅 ${t('dataLabel')}: ${label}\n`;
+  msg += `🕐 ${t('pulledLabel')}: ${pulledAt}\n\n`;
 
   const totals = {};
   list.forEach(e => {
@@ -1274,7 +1277,11 @@ function shareToWA(scope = 'all') {
     msg = buildShareMessage(list, label, singleDate, false);
   }
   if (msg.length > 1250) {
-    msg = `💰 *Catat Duit — ${t('report')}*\n🗓️ ${label}\n\n*TOTAL: ${formatCurrency(sum(list))}*\n📊 ${trxCount(list.length)}`;
+    const pulledAt = new Date().toLocaleString(currentLang === 'id' ? 'id-ID' : 'en-US', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+    });
+    msg = `💰 *Catat Duit — ${t('report')}*\n📅 ${t('dataLabel')}: ${label}\n🕐 ${t('pulledLabel')}: ${pulledAt}\n\n*TOTAL: ${formatCurrency(sum(list))}*\n📊 ${trxCount(list.length)}`;
   }
 
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
