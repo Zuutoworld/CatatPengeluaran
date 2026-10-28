@@ -1,5 +1,5 @@
 // Service worker untuk Catat Pengeluaran (PWA)
-const CACHE_NAME = 'catatduit-v1';
+const CACHE_NAME = 'catatduit-v2';
 
 const APP_SHELL = [
   './',

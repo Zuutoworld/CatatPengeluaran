@@ -9,7 +9,8 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 - ✅ Tambah, edit, hapus pengeluaran
 - 📅 Pencarian per tanggal (riwayat hari-hari sebelumnya tetap tersimpan)
 - 📊 Grafik pengeluaran (kategori & harian)
-- 🔍 Filter & pencarian
+- 🔍 Filter tanggal, bulan, kategori & pencarian
+- 🧭 Bottom navigation + tombol tambah cepat
 - 🌙 Dark / Light mode
 - 🌐 Bilingual (Indonesia / English)
 - 📱 Share ke WhatsApp
@@ -19,7 +20,7 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 ## Tech Stack
 
 - HTML5
-- Tailwind CSS v4 (CDN)
+- CSS custom properties (tanpa framework)
 - Vanilla JavaScript
 - Chart.js
 - PWA (manifest + service worker)

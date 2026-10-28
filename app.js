@@ -1,52 +1,74 @@
 // ============================================================
-// CatatDuit - Expense Tracker App
-// Stack: HTML + Tailwind CSS v4 + Vanilla JS + Chart.js
+// Catat Duit — Expense Tracker App
+// Stack: HTML + CSS + Vanilla JS + Chart.js
 // Storage: LocalStorage
 // ============================================================
 
 // --- i18n ---
 const translations = {
   id: {
-    today: 'Hari Ini',
-    thisWeek: 'Minggu Ini',
-    thisMonth: 'Bulan Ini',
+    appName: 'Catat Duit',
+    monthSpending: 'Pengeluaran bulan ini',
+    today: 'Hari ini',
+    thisWeek: 'Minggu ini',
+    thisMonth: 'Bulan ini',
     total: 'Total',
     transactions: 'transaksi',
+    recent: 'Transaksi Terakhir',
+    seeAll: 'Lihat semua',
+    statistics: 'Statistik',
+    byCategory: 'Kategori',
+    daily: 'Harian',
+    noDataChart: 'Belum ada data bulan ini',
+    biggestCategory: 'Kategori terbesar',
+    history: 'Riwayat',
+    searchHint: 'Cari catatan...',
+    filter: 'Filter',
+    filterTitle: 'Filter Riwayat',
+    monthFilter: 'Bulan',
+    resetFilter: 'Reset',
+    done: 'Selesai',
+    settings: 'Pengaturan',
+    theme: 'Tema',
+    themeDesc: 'Terang atau gelap',
+    light: 'Terang',
+    dark: 'Gelap',
+    language: 'Bahasa',
+    languageDesc: 'Indonesia atau English',
+    installApp: 'Pasang di layar utama',
+    shareWA: 'Kirim ke WhatsApp',
+    clearData: 'Hapus semua data',
+    version: 'Versi',
+    footerMsg: 'Data tersimpan di browser kamu',
+    navHome: 'Beranda',
+    navStats: 'Statistik',
+    navHistory: 'Riwayat',
+    navSettings: 'Atur',
     addExpense: 'Tambah Pengeluaran',
+    editExpense: 'Edit Pengeluaran',
     amount: 'Jumlah',
     category: 'Kategori',
     note: 'Catatan',
     date: 'Tanggal',
-    save: '💾 Simpan',
-    update: '✏️ Update',
-    expenseChart: 'Grafik Pengeluaran',
-    byCategory: 'Kategori',
-    daily: 'Harian',
-    noDataChart: 'Belum ada data untuk ditampilkan',
-    expenseList: 'Daftar Pengeluaran',
-    searchHint: 'Cari catatan...',
-    filterCategory: 'Filter kategori',
-    filterMonth: 'Filter bulan',
-    toggleTheme: 'Ganti tema',
-    searchDateHint: 'Cari berdasarkan tanggal',
-    resetDateFilter: 'Reset filter tanggal',
-    todayShort: 'Hari Ini',
-    allCategories: 'Semua Kategori',
-    shareWA: 'Share WA',
+    save: 'Simpan',
+    update: 'Update',
+    delete: 'Hapus',
+    cancel: 'Batal',
     noExpenses: 'Belum ada pengeluaran. Yuk mulai catat!',
     noResult: 'Tidak ada pengeluaran pada filter ini.',
     noResultDate: 'Tidak ada pengeluaran pada tanggal ini.',
     resultOn: 'Pengeluaran tanggal',
+    allCategories: 'Semua',
+    filterCategory: 'Kategori',
+    todayFilter: 'Hari Ini',
     confirmDelete: 'Hapus Pengeluaran?',
     confirmDeleteMsg: 'Data yang dihapus tidak bisa dikembalikan.',
-    cancel: 'Batal',
-    delete: 'Hapus',
-    footerMsg: 'Data tersimpan di browser kamu',
-    selectCategory: '-- Pilih Kategori --',
-    noteHint: 'Contoh: Makan siang di warteg',
-    saved: '✅ Pengeluaran tersimpan!',
-    updated: '✅ Pengeluaran diperbarui!',
-    deleted: '🗑️ Pengeluaran dihapus!',
+    clearDataMsg: 'Semua catatan pengeluaran akan dihapus permanen dari browser ini.',
+    saved: 'Pengeluaran tersimpan!',
+    updated: 'Pengeluaran diperbarui!',
+    deleted: 'Pengeluaran dihapus!',
+    selectCategory: 'Pilih kategori dulu ya',
+    noteHint: 'Contoh: Makan siang',
     install: 'Pasang',
     installBannerTitle: 'Pasang sebagai aplikasi',
     installBannerSubtitle: 'Buka lebih cepat dari layar utama HP',
@@ -55,60 +77,83 @@ const translations = {
     installSubtitle: 'Akses cepat dari layar utama HP',
     installHintIos: 'Di iPhone/iPad: buka aplikasi ini di Safari, ketuk tombol Bagikan (kotak dengan panah ke atas), lalu pilih "Tambah ke Layar Utama".',
     installHintGeneric: 'Buka menu browser (⋮) di kanan atas, lalu pilih "Instal aplikasi" atau "Tambahkan ke layar utama".',
-    installing: '📲 Menginstal aplikasi...',
-    installedApp: '🎉 Aplikasi berhasil dipasang!',
+    installing: 'Menginstal aplikasi...',
+    installedApp: 'Aplikasi berhasil dipasang!',
     gotIt: 'Mengerti',
-    // categories
-    catFood: '🍔 Makanan & Minuman',
-    catTransport: '🚗 Transportasi',
-    catShopping: '🛍️ Belanja',
-    catBills: '💡 Tagihan & Utilitas',
-    catEntertainment: '🎮 Hiburan',
-    catHealth: '💊 Kesehatan',
-    catEducation: '📚 Pendidikan',
-    catOther: '📦 Lainnya',
+    toggleTheme: 'Ganti tema',
+    toggleLang: 'Ganti bahasa',
+    catFood: 'Makanan & Minuman',
+    catTransport: 'Transportasi',
+    catShopping: 'Belanja',
+    catBills: 'Tagihan',
+    catEntertainment: 'Hiburan',
+    catHealth: 'Kesehatan',
+    catEducation: 'Pendidikan',
+    catOther: 'Lainnya',
   },
   en: {
+    appName: 'Catat Duit',
+    monthSpending: 'Spending this month',
     today: 'Today',
-    thisWeek: 'This Week',
-    thisMonth: 'This Month',
+    thisWeek: 'This week',
+    thisMonth: 'This month',
     total: 'Total',
     transactions: 'transactions',
+    recent: 'Recent Transactions',
+    seeAll: 'See all',
+    statistics: 'Statistics',
+    byCategory: 'Category',
+    daily: 'Daily',
+    noDataChart: 'No data this month yet',
+    biggestCategory: 'Biggest category',
+    history: 'History',
+    searchHint: 'Search notes...',
+    filter: 'Filter',
+    filterTitle: 'Filter History',
+    monthFilter: 'Month',
+    resetFilter: 'Reset',
+    done: 'Done',
+    settings: 'Settings',
+    theme: 'Theme',
+    themeDesc: 'Light or dark',
+    light: 'Light',
+    dark: 'Dark',
+    language: 'Language',
+    languageDesc: 'Indonesian or English',
+    installApp: 'Install to home screen',
+    shareWA: 'Send to WhatsApp',
+    clearData: 'Delete all data',
+    version: 'Version',
+    footerMsg: 'Data stored in your browser',
+    navHome: 'Home',
+    navStats: 'Stats',
+    navHistory: 'History',
+    navSettings: 'Settings',
     addExpense: 'Add Expense',
+    editExpense: 'Edit Expense',
     amount: 'Amount',
     category: 'Category',
     note: 'Note',
     date: 'Date',
-    save: '💾 Save',
-    update: '✏️ Update',
-    expenseChart: 'Expense Chart',
-    byCategory: 'Category',
-    daily: 'Daily',
-    noDataChart: 'No data to display yet',
-    expenseList: 'Expense List',
-    searchHint: 'Search notes...',
-    filterCategory: 'Filter category',
-    filterMonth: 'Filter month',
-    toggleTheme: 'Toggle theme',
-    searchDateHint: 'Search by date',
-    resetDateFilter: 'Reset date filter',
-    todayShort: 'Today',
-    allCategories: 'All Categories',
-    shareWA: 'Share WA',
+    save: 'Save',
+    update: 'Update',
+    delete: 'Delete',
+    cancel: 'Cancel',
     noExpenses: 'No expenses yet. Start tracking!',
     noResult: 'No expenses match this filter.',
     noResultDate: 'No expenses on this date.',
     resultOn: 'Expenses on',
+    allCategories: 'All',
+    filterCategory: 'Category',
+    todayFilter: 'Today',
     confirmDelete: 'Delete Expense?',
     confirmDeleteMsg: 'Deleted data cannot be recovered.',
-    cancel: 'Cancel',
-    delete: 'Delete',
-    footerMsg: 'Data stored in your browser',
-    selectCategory: '-- Select Category --',
-    noteHint: 'e.g., Lunch at restaurant',
-    saved: '✅ Expense saved!',
-    updated: '✅ Expense updated!',
-    deleted: '🗑️ Expense deleted!',
+    clearDataMsg: 'All expense records will be permanently deleted from this browser.',
+    saved: 'Expense saved!',
+    updated: 'Expense updated!',
+    deleted: 'Expense deleted!',
+    selectCategory: 'Pick a category first',
+    noteHint: 'e.g. Lunch',
     install: 'Install',
     installBannerTitle: 'Install as an app',
     installBannerSubtitle: 'Open faster from your home screen',
@@ -116,53 +161,53 @@ const translations = {
     installTitle: 'Install Catat Duit',
     installSubtitle: 'Quick access from your home screen',
     installHintIos: 'On iPhone/iPad: open this app in Safari, tap the Share button (box with an arrow), then choose "Add to Home Screen".',
-    installHintGeneric: 'Open the browser menu (⋮) at the top right, then choose "Install app" or "Add to Home screen".',
-    installing: '📲 Installing app...',
-    installedApp: '🎉 App installed successfully!',
+    installHintGeneric: 'Open the browser menu (⋮) at the top right, then choose "Install app" or "Add to home screen".',
+    installing: 'Installing app...',
+    installedApp: 'App installed successfully!',
     gotIt: 'Got it',
-    catFood: '🍔 Food & Drinks',
-    catTransport: '🚗 Transport',
-    catShopping: '🛍️ Shopping',
-    catBills: '💡 Bills & Utilities',
-    catEntertainment: '🎮 Entertainment',
-    catHealth: '💊 Health',
-    catEducation: '📚 Education',
-    catOther: '📦 Other',
+    toggleTheme: 'Toggle theme',
+    toggleLang: 'Switch language',
+    catFood: 'Food & Drinks',
+    catTransport: 'Transport',
+    catShopping: 'Shopping',
+    catBills: 'Bills',
+    catEntertainment: 'Entertainment',
+    catHealth: 'Health',
+    catEducation: 'Education',
+    catOther: 'Other',
   }
 };
 
-const categoryKeys = {
-  food: 'catFood',
-  transport: 'catTransport',
-  shopping: 'catShopping',
-  bills: 'catBills',
-  entertainment: 'catEntertainment',
-  health: 'catHealth',
-  education: 'catEducation',
-  other: 'catOther',
+// --- Categories ---
+const categories = {
+  food:          { emoji: '🍔', label: 'catFood',          color: '#fb923c', soft: 'rgba(251,146,60,.14)'  },
+  transport:     { emoji: '🚗', label: 'catTransport',     color: '#60a5fa', soft: 'rgba(96,165,250,.14)'  },
+  shopping:      { emoji: '🛍️', label: 'catShopping',      color: '#f472b6', soft: 'rgba(244,114,182,.14)' },
+  bills:         { emoji: '💡', label: 'catBills',         color: '#facc15', soft: 'rgba(250,204,21,.16)'  },
+  entertainment: { emoji: '🎮', label: 'catEntertainment', color: '#a78bfa', soft: 'rgba(167,139,250,.16)' },
+  health:        { emoji: '💊', label: 'catHealth',        color: '#f87171', soft: 'rgba(248,113,113,.14)' },
+  education:     { emoji: '📚', label: 'catEducation',     color: '#22d3ee', soft: 'rgba(34,211,238,.14)'  },
+  other:         { emoji: '📦', label: 'catOther',         color: '#94a3b8', soft: 'rgba(148,163,184,.16)' },
 };
-
-const categoryColors = {
-  food: { bg: 'bg-orange-500/20', text: 'text-orange-400', chart: '#fb923c' },
-  transport: { bg: 'bg-blue-500/20', text: 'text-blue-400', chart: '#60a5fa' },
-  shopping: { bg: 'bg-pink-500/20', text: 'text-pink-400', chart: '#f472b6' },
-  bills: { bg: 'bg-yellow-500/20', text: 'text-yellow-400', chart: '#facc15' },
-  entertainment: { bg: 'bg-purple-500/20', text: 'text-purple-400', chart: '#a78bfa' },
-  health: { bg: 'bg-red-500/20', text: 'text-red-400', chart: '#f87171' },
-  education: { bg: 'bg-cyan-500/20', text: 'text-cyan-400', chart: '#22d3ee' },
-  other: { bg: 'bg-gray-500/20', text: 'text-gray-400', chart: '#94a3b8' },
-};
+const categoryList = Object.keys(categories);
 
 // --- State ---
 let currentLang = localStorage.getItem('catatduit_lang') || 'id';
-let currentTheme = localStorage.getItem('catatduit_theme') || 'dark';
+let currentTheme = localStorage.getItem('catatduit_theme') || 'light';
 let chartView = 'category';
 let deleteTargetId = null;
 let expenseChart = null;
+let sparkChart = null;
+let filterCat = 'all';
 
 // --- Helpers ---
 function getExpenses() {
-  return JSON.parse(localStorage.getItem('catatduit_expenses') || '[]');
+  try {
+    const raw = JSON.parse(localStorage.getItem('catatduit_expenses') || '[]');
+    return Array.isArray(raw) ? raw : [];
+  } catch (e) {
+    return [];
+  }
 }
 
 function saveExpenses(data) {
@@ -170,19 +215,23 @@ function saveExpenses(data) {
 }
 
 function generateId() {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
 function formatCurrency(num) {
-  return 'Rp ' + num.toLocaleString('id-ID');
+  return 'Rp ' + Math.round(Number(num) || 0).toLocaleString('id-ID');
 }
 
 function t(key) {
   return translations[currentLang]?.[key] || translations.id[key] || key;
 }
 
-function getCategoryLabel(cat) {
-  return t(categoryKeys[cat] || 'catOther');
+function categoryLabel(cat) {
+  return t(categories[cat]?.label || 'catOther');
+}
+
+function categoryMeta(cat) {
+  return categories[cat] || categories.other;
 }
 
 function trxCount(n) {
@@ -197,6 +246,11 @@ function getToday() {
   return `${d.getFullYear()}-${month}-${day}`;
 }
 
+function getThisMonthStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
 // Parse YYYY-MM-DD as a local date (avoids UTC off-by-one on day labels)
 function parseDateStr(dateStr) {
   const [y, m, d] = dateStr.split('-').map(Number);
@@ -204,10 +258,19 @@ function parseDateStr(dateStr) {
 }
 
 function formatDayLabel(dateStr) {
-  const dt = parseDateStr(dateStr);
-  return dt.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-  });
+  if (!dateStr) return '';
+  return parseDateStr(dateStr).toLocaleDateString(
+    currentLang === 'id' ? 'id-ID' : 'en-US',
+    { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+  );
+}
+
+function formatMonthLabel(monthStr) {
+  if (!monthStr) return '';
+  return parseDateStr(`${monthStr}-01`).toLocaleDateString(
+    currentLang === 'id' ? 'id-ID' : 'en-US',
+    { month: 'long', year: 'numeric' }
+  );
 }
 
 function isToday(dateStr) {
@@ -217,12 +280,12 @@ function isToday(dateStr) {
 function isThisWeek(dateStr) {
   const d = parseDateStr(dateStr);
   const now = new Date();
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - now.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 7);
-  return d >= startOfWeek && d < endOfWeek;
+  const start = new Date(now);
+  start.setDate(now.getDate() - now.getDay());
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 7);
+  return d >= start && d < end;
 }
 
 function isThisMonth(dateStr) {
@@ -231,227 +294,319 @@ function isThisMonth(dateStr) {
   return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
 }
 
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function sum(list) {
+  return list.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+}
+
 // --- Theme ---
 function applyTheme() {
   const html = document.documentElement;
-  const lightBg = document.getElementById('lightBg');
-  const moonIcon = document.getElementById('moonIcon');
-  const sunIcon = document.getElementById('sunIcon');
-  const themeMeta = document.getElementById('themeColorMeta');
-  const body = document.body;
+  const meta = document.getElementById('themeColorMeta');
+  const isDark = currentTheme === 'dark';
 
-  if (currentTheme === 'dark') {
-    html.classList.add('dark');
-    html.classList.remove('light');
-    body.classList.add('bg-surface-950', 'text-white');
-    body.classList.remove('bg-surface-50', 'text-surface-900');
-    lightBg?.classList.add('hidden');
-    moonIcon?.classList.remove('hidden');
-    sunIcon?.classList.add('hidden');
-  } else {
-    html.classList.remove('dark');
-    html.classList.add('light');
-    body.classList.remove('bg-surface-950', 'text-white');
-    body.classList.add('bg-surface-50', 'text-surface-900');
-    lightBg?.classList.remove('hidden');
-    moonIcon?.classList.add('hidden');
-    sunIcon?.classList.remove('hidden');
-  }
+  html.classList.toggle('dark', isDark);
 
-  if (themeMeta) {
-    themeMeta.content = currentTheme === 'dark' ? '#020617' : '#f8fafc';
-  }
+  if (meta) meta.content = isDark ? '#070e1a' : '#f6f8fd';
+
+  document.getElementById('themeLightBtn')?.classList.toggle('active', !isDark);
+  document.getElementById('themeDarkBtn')?.classList.toggle('active', isDark);
+  document.getElementById('themeBtn')?.setAttribute('aria-pressed', String(isDark));
 }
 
 function toggleTheme() {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+function setTheme(theme) {
+  currentTheme = theme === 'dark' ? 'dark' : 'light';
   localStorage.setItem('catatduit_theme', currentTheme);
   applyTheme();
   renderChart();
+  renderSpark();
 }
 
 // --- Language ---
 function applyLang() {
-  const langBtn = document.getElementById('langToggle');
-  langBtn.textContent = currentLang === 'id' ? '🇮🇩 ID' : '🇬🇧 EN';
+  document.documentElement.lang = currentLang;
+
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) langBtn.textContent = currentLang === 'id' ? 'ID' : 'EN';
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (translations[currentLang]?.[key]) {
+    if (translations[currentLang]?.[key] !== undefined) {
       el.textContent = translations[currentLang][key];
     }
   });
 
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (translations[currentLang]?.[key]) {
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (translations[currentLang]?.[key] !== undefined) {
       el.placeholder = translations[currentLang][key];
-    }
-  });
-
-  document.querySelectorAll('[data-i18n-title]').forEach(el => {
-    const key = el.getAttribute('data-i18n-title');
-    if (translations[currentLang]?.[key]) {
-      el.title = translations[currentLang][key];
     }
   });
 
   document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
     const key = el.getAttribute('data-i18n-aria-label');
-    if (translations[currentLang]?.[key]) {
+    if (translations[currentLang]?.[key] !== undefined) {
       el.setAttribute('aria-label', translations[currentLang][key]);
     }
   });
 
-  // Update select options
-  const catSelect = document.getElementById('inputCategory');
-  if (catSelect) {
-    catSelect.options[0].textContent = t('selectCategory');
-    const cats = ['food', 'transport', 'shopping', 'bills', 'entertainment', 'health', 'education', 'other'];
-    cats.forEach((cat, i) => {
-      catSelect.options[i + 1].textContent = getCategoryLabel(cat);
-    });
+  document.getElementById('langIdBtn')?.classList.toggle('active', currentLang === 'id');
+  document.getElementById('langEnBtn')?.classList.toggle('active', currentLang === 'en');
+
+  // Dynamic pieces
+  const todayLabel = document.getElementById('todayLabel');
+  if (todayLabel) {
+    const label = formatDayLabel(getToday());
+    todayLabel.textContent = label.charAt(0).toUpperCase() + label.slice(1);
   }
 
-  // Update submit button
-  const editId = document.getElementById('editId').value;
-  const btnSubmit = document.querySelector('#btnSubmit span');
-  if (btnSubmit) {
-    btnSubmit.textContent = editId ? t('update') : t('save');
-  }
+  buildCategoryGrid();
+  renderCategoryChips();
+  updateSheetMode();
+  updateFilterUI();
 }
 
 function toggleLang() {
-  currentLang = currentLang === 'id' ? 'en' : 'id';
-  localStorage.setItem('catatduit_lang', currentLang);
-  applyLang();
-  renderTransactions();
-  renderChart();
+  setLang(currentLang === 'id' ? 'en' : 'id');
 }
 
-// --- Stats ---
+function setLang(lang) {
+  currentLang = lang === 'en' ? 'en' : 'id';
+  localStorage.setItem('catatduit_lang', currentLang);
+  applyLang();
+  renderAll();
+}
+
+// --- Date/time labels ---
+function renderHeader() {
+  const todayLabel = document.getElementById('todayLabel');
+  if (todayLabel) {
+    const label = formatDayLabel(getToday());
+    todayLabel.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+  }
+  const heroMonth = document.getElementById('heroMonth');
+  if (heroMonth) heroMonth.textContent = formatMonthLabel(getThisMonthStr());
+}
+
+// --- Home ---
 function updateStats() {
   const expenses = getExpenses();
   const today = expenses.filter(e => isToday(e.date));
   const week = expenses.filter(e => isThisWeek(e.date));
   const month = expenses.filter(e => isThisMonth(e.date));
 
-  const sum = arr => arr.reduce((s, e) => s + e.amount, 0);
-
   document.getElementById('statToday').textContent = formatCurrency(sum(today));
   document.getElementById('statWeek').textContent = formatCurrency(sum(week));
   document.getElementById('statMonth').textContent = formatCurrency(sum(month));
   document.getElementById('statTotal').textContent = formatCurrency(sum(expenses));
 
-  document.getElementById('statTodayCount').innerHTML = `${today.length} ${t('transactions')}`;
-  document.getElementById('statWeekCount').innerHTML = `${week.length} ${t('transactions')}`;
-  document.getElementById('statMonthCount').innerHTML = `${month.length} ${t('transactions')}`;
-  document.getElementById('statTotalCount').innerHTML = `${expenses.length} ${t('transactions')}`;
+  document.getElementById('statTodayCount').textContent = trxCount(today.length);
+  document.getElementById('statWeekCount').textContent = trxCount(week.length);
+  document.getElementById('statMonthCount').textContent = trxCount(month.length);
+  document.getElementById('statTotalCount').textContent = trxCount(expenses.length);
+
+  document.getElementById('heroTotal').textContent = formatCurrency(sum(month));
+  document.getElementById('heroToday').textContent = formatCurrency(sum(today));
+  document.getElementById('heroCount').textContent = trxCount(month.length);
 }
 
-// --- Chart ---
+function renderRecent() {
+  const container = document.getElementById('recentList');
+  if (!container) return;
+
+  const expenses = [...getExpenses()].sort((a, b) => {
+    if (a.date !== b.date) return b.date.localeCompare(a.date);
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  }).slice(0, 5);
+
+  if (expenses.length === 0) {
+    container.innerHTML = emptyState(t('noExpenses'));
+    return;
+  }
+  container.innerHTML = expenses.map(txItemHtml).join('');
+}
+
+function renderSpark() {
+  if (document.getElementById('view-home')?.hidden) return;
+
+  const canvas = document.getElementById('sparkChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  if (sparkChart) { sparkChart.destroy(); sparkChart = null; }
+
+  const days = [];
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    days.push({
+      key,
+      letter: d.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { weekday: 'narrow' }),
+      total: 0,
+    });
+  }
+
+  getExpenses().forEach(e => {
+    const hit = days.find(d => d.key === e.date);
+    if (hit) hit.total += Number(e.amount) || 0;
+  });
+
+  sparkChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: days.map(d => d.letter),
+      datasets: [{
+        data: days.map(d => d.total),
+        backgroundColor: days.map((d, i) => i === days.length - 1 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.34)'),
+        borderRadius: 5,
+        borderSkipped: false,
+        barPercentage: 0.62,
+        categoryPercentage: 0.8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 4 } },
+      scales: {
+        x: { display: false, grid: { display: false } },
+        y: { display: false, grid: { display: false }, beginAtZero: true },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          callbacks: { label: ctx => formatCurrency(ctx.parsed.y) },
+        }
+      },
+      animation: { duration: 500 },
+    }
+  });
+}
+
+// --- Stats ---
 function setChartView(view) {
-  chartView = view;
-  document.getElementById('btnChartCat').className = view === 'category'
-    ? 'px-3 py-1.5 rounded-lg text-xs font-medium bg-primary-500/20 text-primary-400 transition-all cursor-pointer'
-    : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-800/50 text-surface-200/70 hover:bg-surface-700/50 transition-all cursor-pointer';
-  document.getElementById('btnChartDaily').className = view === 'daily'
-    ? 'px-3 py-1.5 rounded-lg text-xs font-medium bg-primary-500/20 text-primary-400 transition-all cursor-pointer'
-    : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-800/50 text-surface-200/70 hover:bg-surface-700/50 transition-all cursor-pointer';
+  chartView = view === 'daily' ? 'daily' : 'category';
+  document.getElementById('btnChartCat')?.classList.toggle('active', chartView === 'category');
+  document.getElementById('btnChartDaily')?.classList.toggle('active', chartView === 'daily');
   renderChart();
 }
 
 function renderChart() {
-  const expenses = getExpenses();
-  const monthExpenses = expenses.filter(e => isThisMonth(e.date));
-  const canvas = document.getElementById('expenseChart');
-  const emptyMsg = document.getElementById('chartEmpty');
+  const viewStats = document.getElementById('view-stats');
+  if (!viewStats || viewStats.hidden) return;
 
-  if (expenseChart) {
-    expenseChart.destroy();
-  }
+  const canvas = document.getElementById('expenseChart');
+  if (!canvas) return;
+
+  const monthExpenses = getExpenses().filter(e => isThisMonth(e.date));
+  const emptyMsg = document.getElementById('chartEmpty');
+  const legend = document.getElementById('chartLegend');
+  const donutCenter = document.getElementById('donutCenter');
+
+  if (expenseChart) { expenseChart.destroy(); expenseChart = null; }
+
+  const monthTotal = sum(monthExpenses);
+  const donutTotal = document.getElementById('donutTotal');
+  if (donutTotal) donutTotal.textContent = formatCurrency(monthTotal);
+
+  if (legend) legend.innerHTML = '';
 
   if (monthExpenses.length === 0) {
-    emptyMsg.classList.remove('hidden');
+    if (emptyMsg) emptyMsg.hidden = false;
+    if (donutCenter) donutCenter.style.display = 'none';
+    if (typeof Chart !== 'undefined') {
+      // leave canvas blank
+    }
+    renderInsight(monthExpenses);
     return;
   }
-  emptyMsg.classList.add('hidden');
 
-  const textColor = currentTheme === 'dark' ? '#94a3b8' : '#64748b';
-  const gridColor = currentTheme === 'dark' ? 'rgba(148,163,184,0.1)' : 'rgba(100,116,139,0.1)';
+  if (emptyMsg) emptyMsg.hidden = true;
+  if (donutCenter) donutCenter.style.display = '';
+
+  if (typeof Chart === 'undefined') {
+    renderInsight(monthExpenses);
+    return;
+  }
+
+  const isDark = currentTheme === 'dark';
+  const textColor = isDark ? '#8fa1bb' : '#8894a9';
+  const gridColor = isDark ? 'rgba(143,161,187,.14)' : 'rgba(136,148,169,.16)';
+  const brand = isDark ? '#5b8cff' : '#2f6bff';
 
   if (chartView === 'category') {
-    // Doughnut chart by category
-    const catTotals = {};
+    const totals = {};
     monthExpenses.forEach(e => {
-      catTotals[e.category] = (catTotals[e.category] || 0) + e.amount;
+      totals[e.category] = (totals[e.category] || 0) + (Number(e.amount) || 0);
     });
 
-    const labels = Object.keys(catTotals).map(c => getCategoryLabel(c));
-    const data = Object.values(catTotals);
-    const colors = Object.keys(catTotals).map(c => categoryColors[c]?.chart || '#94a3b8');
+    const entries = Object.entries(totals).sort((a, b) => b[1] - a[1]);
 
     expenseChart = new Chart(canvas, {
       type: 'doughnut',
       data: {
-        labels,
+        labels: entries.map(([cat]) => categoryLabel(cat)),
         datasets: [{
-          data,
-          backgroundColor: colors,
+          data: entries.map(([, val]) => val),
+          backgroundColor: entries.map(([cat]) => categoryMeta(cat).color),
           borderWidth: 0,
-          hoverOffset: 8,
+          hoverOffset: 6,
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '65%',
+        cutout: '72%',
         plugins: {
-          legend: {
-            position: 'right',
-            labels: {
-              color: textColor,
-              padding: 12,
-              usePointStyle: true,
-              pointStyleWidth: 10,
-              font: { size: 11, family: 'Inter' },
-            }
-          },
+          legend: { display: false },
           tooltip: {
-            callbacks: {
-              label: ctx => ` ${ctx.label}: ${formatCurrency(ctx.parsed)}`
-            }
+            callbacks: { label: ctx => ` ${ctx.label}: ${formatCurrency(ctx.parsed)}` }
           }
         },
-        animation: {
-          animateRotate: true,
-          duration: 800,
-        }
+        animation: { animateRotate: true, duration: 700 },
       }
     });
+
+    if (legend) {
+      legend.innerHTML = entries.map(([cat, val]) => {
+        const meta = categoryMeta(cat);
+        return `
+          <div class="legend-item">
+            <span class="legend-dot" style="background:${meta.color}"></span>
+            <span class="legend-name">${esc(categoryLabel(cat))}</span>
+            <span class="legend-val">${formatCurrency(val)}</span>
+          </div>`;
+      }).join('');
+    }
   } else {
-    // Bar chart daily for current month
     const dailyTotals = {};
     monthExpenses.forEach(e => {
-      dailyTotals[e.date] = (dailyTotals[e.date] || 0) + e.amount;
+      dailyTotals[e.date] = (dailyTotals[e.date] || 0) + (Number(e.amount) || 0);
     });
-
-    const sortedDates = Object.keys(dailyTotals).sort();
-    const labels = sortedDates.map(d => {
-      const dt = new Date(d);
-      return dt.getDate().toString();
-    });
-    const data = sortedDates.map(d => dailyTotals[d]);
+    const dates = Object.keys(dailyTotals).sort();
 
     expenseChart = new Chart(canvas, {
       type: 'bar',
       data: {
-        labels,
+        labels: dates.map(d => parseDateStr(d).getDate()),
         datasets: [{
           label: t('daily'),
-          data,
-          backgroundColor: 'rgba(99,102,241,0.5)',
-          borderColor: '#6366f1',
+          data: dates.map(d => dailyTotals[d]),
+          backgroundColor: isDark ? 'rgba(91,140,255,.55)' : 'rgba(47,107,255,.45)',
+          borderColor: brand,
           borderWidth: 1,
           borderRadius: 6,
           borderSkipped: false,
@@ -462,50 +617,80 @@ function renderChart() {
         maintainAspectRatio: false,
         scales: {
           x: {
-            grid: { color: gridColor },
-            ticks: { color: textColor, font: { size: 10, family: 'Inter' } },
+            grid: { display: false },
+            ticks: { color: textColor, font: { size: 10 } },
           },
           y: {
             grid: { color: gridColor },
-            ticks: {
-              color: textColor,
-              font: { size: 10, family: 'Inter' },
-              callback: v => formatCurrency(v),
-            },
+            ticks: { color: textColor, font: { size: 10 }, callback: v => formatCurrency(v) },
             beginAtZero: true,
           }
         },
         plugins: {
           legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => ` ${formatCurrency(ctx.parsed.y)}`
-            }
-          }
+          tooltip: { callbacks: { label: ctx => ` ${formatCurrency(ctx.parsed.y)}` } }
         },
-        animation: {
-          duration: 600,
-        }
+        animation: { duration: 500 },
       }
     });
+
+    if (legend) {
+      legend.innerHTML = `
+        <div class="legend-item">
+          <span class="legend-dot" style="background:${brand}"></span>
+          <span class="legend-name">${esc(t('daily'))}</span>
+          <span class="legend-val">${formatCurrency(monthTotal)}</span>
+        </div>`;
+    }
   }
+
+  renderInsight(monthExpenses);
+}
+
+function renderInsight(monthExpenses) {
+  const nameEl = document.getElementById('insightName');
+  const subEl = document.getElementById('insightSub');
+  const valEl = document.getElementById('insightValue');
+  const icoEl = document.getElementById('insightIco');
+  if (!nameEl || !subEl || !valEl || !icoEl) return;
+
+  if (monthExpenses.length === 0) {
+    icoEl.textContent = '🏷️';
+    icoEl.style.background = 'var(--brand-soft)';
+    nameEl.textContent = '—';
+    subEl.textContent = '—';
+    valEl.textContent = formatCurrency(0);
+    return;
+  }
+
+  const totals = {};
+  monthExpenses.forEach(e => {
+    totals[e.category] = (totals[e.category] || 0) + (Number(e.amount) || 0);
+  });
+
+  const [topCat, topVal] = Object.entries(totals).sort((a, b) => b[1] - a[1])[0];
+  const meta = categoryMeta(topCat);
+  const total = sum(monthExpenses);
+  const pct = total > 0 ? Math.round((topVal / total) * 100) : 0;
+
+  icoEl.textContent = meta.emoji;
+  icoEl.style.background = meta.soft;
+  nameEl.textContent = categoryLabel(topCat);
+  subEl.textContent = `${pct}% ${currentLang === 'id' ? 'dari total bulan ini' : 'of this month total'}`;
+  valEl.textContent = formatCurrency(topVal);
 }
 
 // --- Filters ---
-// Date and month filters are mutually exclusive so results are never empty by accident.
 function onDateFilterChange() {
-  const dateVal = document.getElementById('filterDate').value;
-  if (dateVal) {
-    document.getElementById('filterMonth').value = '';
-  }
+  const dateEl = document.getElementById('filterDate');
+  if (dateEl.value) document.getElementById('filterMonth').value = '';
   updateFilterUI();
   renderTransactions();
 }
 
 function onMonthFilterChange() {
-  if (document.getElementById('filterMonth').value) {
-    document.getElementById('filterDate').value = '';
-  }
+  const monthEl = document.getElementById('filterMonth');
+  if (monthEl.value) document.getElementById('filterDate').value = '';
   updateFilterUI();
   renderTransactions();
 }
@@ -517,180 +702,371 @@ function setDateFilter(dateStr) {
   renderTransactions();
 }
 
-function clearDateFilter() {
+function setMonthFilter(monthStr) {
+  document.getElementById('filterMonth').value = monthStr;
   document.getElementById('filterDate').value = '';
-  const now = new Date();
-  document.getElementById('filterMonth').value =
-    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   updateFilterUI();
   renderTransactions();
 }
 
-function updateFilterUI() {
-  const dateVal = document.getElementById('filterDate').value;
-  const clearBtn = document.getElementById('clearDateBtn');
-  const todayBtn = document.getElementById('todayFilterBtn');
-  const monthInput = document.getElementById('filterMonth');
-  const summary = document.getElementById('filterSummary');
-
-  if (dateVal) {
-    clearBtn.classList.remove('hidden');
-    clearBtn.classList.add('flex');
-    // Month and date filters are exclusive; hide the month picker while a date is active
-    monthInput.classList.add('hidden');
-    summary.classList.remove('hidden');
-    summary.classList.add('flex');
-  } else {
-    clearBtn.classList.add('hidden');
-    clearBtn.classList.remove('flex');
-    monthInput.classList.remove('hidden');
-    summary.classList.add('hidden');
-    summary.classList.remove('flex');
-  }
-
-  // Highlight the quick "Today" button when today is the active filter
-  todayBtn.classList.toggle('is-active', !!dateVal && dateVal === getToday());
+function clearDateFilter() {
+  document.getElementById('filterDate').value = '';
+  updateFilterUI();
+  renderTransactions();
 }
 
-// --- Transactions ---
-function renderTransactions() {
-  const expenses = getExpenses();
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const filterCat = document.getElementById('filterCategory').value;
-  const filterMonth = document.getElementById('filterMonth').value;
-  const filterDate = document.getElementById('filterDate').value;
+function clearMonthFilter() {
+  document.getElementById('filterMonth').value = '';
+  updateFilterUI();
+  renderTransactions();
+}
 
-  let filtered = expenses;
+function setCategoryFilter(cat) {
+  filterCat = categories[cat] ? cat : 'all';
+  updateFilterUI();
+  renderTransactions();
+}
 
-  if (searchTerm) {
-    filtered = filtered.filter(e =>
-      (e.note || '').toLowerCase().includes(searchTerm) ||
-      getCategoryLabel(e.category).toLowerCase().includes(searchTerm)
+function resetFilters() {
+  filterCat = 'all';
+  document.getElementById('filterDate').value = '';
+  document.getElementById('filterMonth').value = '';
+  const search = document.getElementById('searchInput');
+  if (search) search.value = '';
+  updateFilterUI();
+  renderTransactions();
+}
+
+function currentFilters() {
+  return {
+    date: document.getElementById('filterDate')?.value || '',
+    month: document.getElementById('filterMonth')?.value || '',
+    cat: filterCat,
+    search: (document.getElementById('searchInput')?.value || '').trim(),
+  };
+}
+
+function hasActiveFilter(f) {
+  return !!(f.date || f.month || (f.cat && f.cat !== 'all') || f.search);
+}
+
+function updateFilterUI() {
+  const f = currentFilters();
+  const dateEl = document.getElementById('filterDate');
+  const monthField = document.getElementById('filterMonth')?.closest('.field');
+  const clearBtn = document.getElementById('clearDateBtn');
+  const todayBtn = document.getElementById('todayFilterBtn');
+  const dot = document.getElementById('filterDot');
+  const filterBtn = document.getElementById('filterBtn');
+
+  // Date and month filters are mutually exclusive; hide month while date is active
+  if (monthField) monthField.style.display = f.date ? 'none' : '';
+  if (dateEl) dateEl.value = f.date;
+
+  if (clearBtn) clearBtn.hidden = !f.date;
+  if (todayBtn) todayBtn.classList.toggle('active', !!f.date && f.date === getToday());
+
+  const active = hasActiveFilter(f);
+  if (dot) dot.hidden = !active;
+  if (filterBtn) filterBtn.classList.toggle('active', !!(f.date || f.month));
+
+  renderCategoryChips();
+  renderActiveFilters(f);
+}
+
+function renderCategoryChips() {
+  const row = document.getElementById('categoryChips');
+  if (!row) return;
+
+  const chips = [`<button class="chip ${filterCat === 'all' ? 'active' : ''}" onclick="setCategoryFilter('all')">${esc(t('allCategories'))}</button>`];
+
+  categoryList.forEach(cat => {
+    const meta = categoryMeta(cat);
+    chips.push(
+      `<button class="chip ${filterCat === cat ? 'active' : ''}" onclick="setCategoryFilter('${cat}')">
+        <span>${meta.emoji}</span>${esc(categoryLabel(cat))}
+      </button>`
+    );
+  });
+
+  row.innerHTML = chips.join('');
+}
+
+function renderActiveFilters(f) {
+  const box = document.getElementById('activeFilters');
+  if (!box) return;
+
+  const parts = [];
+
+  if (f.date) {
+    parts.push(`<button class="active-chip" onclick="clearDateFilter()">
+      📅 ${esc(formatDayLabel(f.date))}
+      ${closeIcon()}
+    </button>`);
+  }
+  if (f.month) {
+    parts.push(`<button class="active-chip" onclick="clearMonthFilter()">
+      🗓️ ${esc(formatMonthLabel(f.month))}
+      ${closeIcon()}
+    </button>`);
+  }
+  if (f.cat && f.cat !== 'all') {
+    const meta = categoryMeta(f.cat);
+    parts.push(`<button class="active-chip" onclick="setCategoryFilter('all')">
+      ${meta.emoji} ${esc(categoryLabel(f.cat))}
+      ${closeIcon()}
+    </button>`);
+  }
+
+  box.innerHTML = parts.join('');
+}
+
+function closeIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+}
+
+// --- Sheets ---
+function openSheet(sheetId, backdropId) {
+  document.getElementById(backdropId)?.classList.add('open');
+  document.getElementById(sheetId)?.classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+
+function closeSheet(sheetId, backdropId) {
+  document.getElementById(backdropId)?.classList.remove('open');
+  document.getElementById(sheetId)?.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+
+function openExpenseSheet(id) {
+  const form = document.getElementById('expenseForm');
+  form?.reset();
+  document.getElementById('editId').value = '';
+  document.getElementById('inputCategory').value = '';
+  document.getElementById('inputDate').value = getToday();
+  document.getElementById('btnDelete').hidden = true;
+  document.getElementById('sheetTitle').textContent = t('addExpense');
+
+  if (id) editExpense(id);
+
+  updateSheetMode();
+  openSheet('expenseSheet', 'sheetBackdrop');
+  setTimeout(() => document.getElementById('inputAmount')?.focus(), 320);
+}
+
+function closeExpenseSheet() {
+  closeSheet('expenseSheet', 'sheetBackdrop');
+  document.getElementById('inputAmount')?.blur();
+}
+
+function openFilterSheet() {
+  updateFilterUI();
+  openSheet('filterSheet', 'filterBackdrop');
+}
+
+function closeFilterSheet() {
+  closeSheet('filterSheet', 'filterBackdrop');
+}
+
+// --- Transactions list ---
+function filteredExpenses() {
+  const f = currentFilters();
+  let list = getExpenses();
+
+  if (f.search) {
+    const term = f.search.toLowerCase();
+    list = list.filter(e =>
+      String(e.note || '').toLowerCase().includes(term) ||
+      categoryLabel(e.category).toLowerCase().includes(term)
     );
   }
 
-  if (filterCat !== 'all') {
-    filtered = filtered.filter(e => e.category === filterCat);
-  }
+  if (f.cat && f.cat !== 'all') list = list.filter(e => e.category === f.cat);
+  if (f.month) list = list.filter(e => String(e.date).startsWith(f.month));
+  if (f.date) list = list.filter(e => e.date === f.date);
 
-  if (filterMonth) {
-    filtered = filtered.filter(e => e.date.startsWith(filterMonth));
-  }
-
-  if (filterDate) {
-    filtered = filtered.filter(e => e.date === filterDate);
-  }
-
-  // Sort by date desc, then by creation order desc
-  filtered.sort((a, b) => {
+  return list.sort((a, b) => {
     if (a.date !== b.date) return b.date.localeCompare(a.date);
     return (b.createdAt || 0) - (a.createdAt || 0);
   });
+}
 
+function txItemHtml(e) {
+  const meta = categoryMeta(e.category);
+  const note = e.note ? esc(e.note) : esc(categoryLabel(e.category));
+  return `
+    <button class="tx-item" onclick="openExpenseSheet('${esc(e.id)}')" aria-label="${esc(note)} ${esc(formatCurrency(e.amount))}">
+      <span class="tx-ico" style="background:${meta.soft}">${meta.emoji}</span>
+      <span class="tx-main">
+        <span class="tx-title">${note}</span>
+        <span class="tx-sub">${esc(categoryLabel(e.category))}</span>
+      </span>
+      <span class="tx-amount">-${esc(formatCurrency(e.amount))}</span>
+    </button>`;
+}
+
+function emptyState(message) {
+  return `
+    <div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+      </svg>
+      <p>${esc(message)}</p>
+    </div>`;
+}
+
+function renderTransactions() {
   const container = document.getElementById('transactionList');
+  if (!container) return;
 
-  // Summary bar for a specific date
-  if (filterDate) {
-    const dayTotal = filtered.reduce((s, e) => s + e.amount, 0);
-    document.getElementById('filterSummaryText').textContent =
-      `${t('resultOn')} ${formatDayLabel(filterDate)} · ${trxCount(filtered.length)}`;
-    document.getElementById('filterSummaryTotal').textContent = formatCurrency(dayTotal);
+  const f = currentFilters();
+  const list = filteredExpenses();
+
+  // Header count
+  const countEl = document.getElementById('historyCount');
+  if (countEl) countEl.textContent = trxCount(list.length);
+
+  // Summary bar (date / month / category / search)
+  const summary = document.getElementById('filterSummary');
+  const summaryText = document.getElementById('filterSummaryText');
+  const summaryTotal = document.getElementById('filterSummaryTotal');
+
+  if (summary && summaryText && summaryTotal) {
+    if (f.date) {
+      summary.hidden = false;
+      summaryText.innerHTML = `<b>${esc(t('resultOn'))}</b> ${esc(formatDayLabel(f.date))} · ${trxCount(list.length)}`;
+      summaryTotal.textContent = formatCurrency(sum(list));
+    } else if (f.month) {
+      summary.hidden = false;
+      summaryText.innerHTML = `<b>${esc(t('monthFilter'))}</b> ${esc(formatMonthLabel(f.month))} · ${trxCount(list.length)}`;
+      summaryTotal.textContent = formatCurrency(sum(list));
+    } else if (f.cat !== 'all') {
+      summary.hidden = false;
+      summaryText.innerHTML = `<b>${esc(t('filterCategory'))}</b> ${esc(categoryLabel(f.cat))} · ${trxCount(list.length)}`;
+      summaryTotal.textContent = formatCurrency(sum(list));
+    } else if (f.search) {
+      summary.hidden = false;
+      summaryText.innerHTML = `<b>${esc(trxCount(list.length))}</b>`;
+      summaryTotal.textContent = formatCurrency(sum(list));
+    } else {
+      summary.hidden = true;
+    }
   }
 
-  if (filtered.length === 0) {
-    const hasFilter = filterDate || filterMonth || filterCat !== 'all' || searchTerm;
-    const emptyMsg = filterDate ? t('noResultDate') : (hasFilter ? t('noResult') : t('noExpenses'));
-    container.innerHTML = `
-      <div class="text-center py-12 text-surface-200/40">
-        <svg class="w-16 h-16 mx-auto mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-        </svg>
-        <p>${emptyMsg}</p>
-      </div>`;
+  if (list.length === 0) {
+    let message = t('noExpenses');
+    if (f.date) message = t('noResultDate');
+    else if (hasActiveFilter(f)) message = t('noResult');
+    container.innerHTML = emptyState(message);
     return;
   }
 
-  // Group by date
   const grouped = {};
-  filtered.forEach(e => {
+  list.forEach(e => {
     if (!grouped[e.date]) grouped[e.date] = [];
     grouped[e.date].push(e);
   });
 
-  let html = '';
-  const sortedDates = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+  container.innerHTML = Object.keys(grouped)
+    .sort((a, b) => b.localeCompare(a))
+    .map(date => {
+      const items = grouped[date];
+      return `
+        <div class="tx-day">
+          <div class="tx-day-head">
+            <span>${esc(formatDayLabel(date))}</span>
+            <span class="tx-day-total">${esc(formatCurrency(sum(items)))}</span>
+          </div>
+          <div class="tx-list">${items.map(txItemHtml).join('')}</div>
+        </div>`;
+    })
+    .join('');
+}
 
-  sortedDates.forEach(date => {
-    const items = grouped[date];
-    const dayTotal = items.reduce((s, e) => s + e.amount, 0);
-    const dayLabel = formatDayLabel(date);
+// --- Category grid (add/edit sheet) ---
+function buildCategoryGrid() {
+  const grid = document.getElementById('catGrid');
+  if (!grid) return;
 
-    html += `
-      <div class="mb-4">
-        <div class="flex items-center justify-between mb-2 px-1">
-          <span class="text-xs font-semibold text-surface-200/50 uppercase tracking-wider">${dayLabel}</span>
-          <span class="text-xs font-bold text-expense-400">${formatCurrency(dayTotal)}</span>
-        </div>
-        <div class="space-y-1.5">`;
+  grid.innerHTML = categoryList.map(cat => {
+    const meta = categoryMeta(cat);
+    return `
+      <button type="button" class="cat-option" data-cat="${cat}" onclick="pickCategory('${cat}')">
+        <span class="emoji">${meta.emoji}</span>
+        <span>${esc(categoryLabel(cat))}</span>
+      </button>`;
+  }).join('');
 
-    items.forEach(e => {
-      const colors = categoryColors[e.category] || categoryColors.other;
-      html += `
-          <div class="tx-row flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-900/30 dark:bg-surface-900/30 hover:bg-surface-800/50 dark:hover:bg-surface-800/50 group transition-all">
-            <div class="cat-badge w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center flex-shrink-0">
-              <span class="text-lg">${getCategoryLabel(e.category).split(' ')[0]}</span>
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium truncate">${e.note || getCategoryLabel(e.category)}</p>
-              <p class="text-xs ${colors.text} opacity-70">${getCategoryLabel(e.category)}</p>
-            </div>
-            <div class="text-right flex-shrink-0">
-              <p class="text-sm font-bold text-expense-400">-${formatCurrency(e.amount)}</p>
-            </div>
-            <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-              <button onclick="editExpense('${e.id}')" class="w-8 h-8 rounded-lg bg-primary-500/20 text-primary-400 flex items-center justify-center hover:bg-primary-500/30 transition-all cursor-pointer">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-              </button>
-              <button onclick="openDeleteModal('${e.id}')" class="w-8 h-8 rounded-lg bg-expense-500/20 text-expense-400 flex items-center justify-center hover:bg-expense-500/30 transition-all cursor-pointer">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-              </button>
-            </div>
-          </div>`;
-    });
+  const selected = document.getElementById('inputCategory')?.value;
+  if (selected) markCategory(selected);
+}
 
-    html += `
-        </div>
-      </div>`;
+function pickCategory(cat) {
+  document.getElementById('inputCategory').value = cat;
+  markCategory(cat);
+}
+
+function markCategory(cat) {
+  document.querySelectorAll('#catGrid .cat-option').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === cat);
   });
+}
 
-  container.innerHTML = html;
+function updateSheetMode() {
+  const id = document.getElementById('editId')?.value || '';
+  const title = document.getElementById('sheetTitle');
+  const submit = document.querySelector('#btnSubmit span');
+  const del = document.getElementById('btnDelete');
+
+  if (title) title.textContent = id ? t('editExpense') : t('addExpense');
+  if (submit) submit.textContent = id ? t('update') : t('save');
+  if (del) del.hidden = !id;
+}
+
+// --- Amount input ---
+function onAmountInput(event) {
+  const digits = event.target.value.replace(/\D/g, '').slice(0, 12);
+  event.target.value = digits ? Number(digits).toLocaleString('id-ID') : '';
+}
+
+function amountValue() {
+  return parseInt(document.getElementById('inputAmount').value.replace(/\D/g, ''), 10) || 0;
+}
+
+function setAmount(value) {
+  const input = document.getElementById('inputAmount');
+  input.value = Number(value).toLocaleString('id-ID');
 }
 
 // --- CRUD ---
 function handleSubmit(e) {
   e.preventDefault();
 
-  const amount = parseInt(document.getElementById('inputAmount').value);
+  const amount = amountValue();
   const category = document.getElementById('inputCategory').value;
   const note = document.getElementById('inputNote').value.trim();
   const date = document.getElementById('inputDate').value;
   const editId = document.getElementById('editId').value;
 
-  if (!amount || !category || !date) return;
+  if (!amount) {
+    showToast(currentLang === 'id' ? 'Jumlah belum diisi' : 'Amount is required');
+    return;
+  }
+  if (!categories[category]) {
+    showToast(t('selectCategory'));
+    return;
+  }
+  if (!date) return;
 
   const expenses = getExpenses();
 
   if (editId) {
-    // Update
     const idx = expenses.findIndex(ex => ex.id === editId);
     if (idx !== -1) {
       expenses[idx] = { ...expenses[idx], amount, category, note, date };
     }
-    document.getElementById('editId').value = '';
-    document.querySelector('#btnSubmit span').textContent = t('save');
     showToast(t('updated'));
   } else {
-    // Create
     expenses.push({
       id: generateId(),
       amount,
@@ -703,127 +1079,157 @@ function handleSubmit(e) {
   }
 
   saveExpenses(expenses);
-  e.target.reset();
-  document.getElementById('inputDate').value = getToday();
 
-  // Make sure the entry that was just saved is visible in the list
-  const dateFilterEl = document.getElementById('filterDate');
-  const monthFilterEl = document.getElementById('filterMonth');
-  if (dateFilterEl.value) {
-    dateFilterEl.value = date;
-    monthFilterEl.value = '';
-  } else if (monthFilterEl.value && !date.startsWith(monthFilterEl.value)) {
-    monthFilterEl.value = date.slice(0, 7);
+  // Keep the saved entry reachable: align active filters to its date
+  const dateEl = document.getElementById('filterDate');
+  const monthEl = document.getElementById('filterMonth');
+  if (dateEl.value) {
+    dateEl.value = date;
+    monthEl.value = '';
+  } else if (monthEl.value && !date.startsWith(monthEl.value)) {
+    monthEl.value = date.slice(0, 7);
   }
 
-  updateFilterUI();
-  updateStats();
-  renderTransactions();
-  renderChart();
+  closeExpenseSheet();
+  renderAll();
 }
 
 function editExpense(id) {
-  const expenses = getExpenses();
-  const expense = expenses.find(e => e.id === id);
+  const expense = getExpenses().find(e => e.id === id);
   if (!expense) return;
 
-  document.getElementById('inputAmount').value = expense.amount;
+  document.getElementById('inputAmount').value = Number(expense.amount).toLocaleString('id-ID');
   document.getElementById('inputCategory').value = expense.category;
   document.getElementById('inputNote').value = expense.note || '';
   document.getElementById('inputDate').value = expense.date;
-  document.getElementById('editId').value = id;
+  document.getElementById('editId').value = expense.id;
 
-  const btnSubmit = document.querySelector('#btnSubmit span');
-  btnSubmit.textContent = t('update');
+  markCategory(expense.category);
+  updateSheetMode();
+}
 
-  // Scroll to form
-  document.getElementById('expenseForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+function deleteEditing() {
+  const id = document.getElementById('editId').value;
+  if (!id) return;
+  closeExpenseSheet();
+  openDeleteModal(id);
 }
 
 function openDeleteModal(id) {
   deleteTargetId = id;
-  const modal = document.getElementById('deleteModal');
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
+  openModal('deleteModal');
 }
 
 function closeDeleteModal() {
   deleteTargetId = null;
-  const modal = document.getElementById('deleteModal');
-  modal.classList.add('hidden');
-  modal.classList.remove('flex');
+  closeModal('deleteModal');
 }
 
 function confirmDelete() {
   if (!deleteTargetId) return;
 
-  let expenses = getExpenses();
-  expenses = expenses.filter(e => e.id !== deleteTargetId);
-  saveExpenses(expenses);
+  saveExpenses(getExpenses().filter(e => e.id !== deleteTargetId));
   closeDeleteModal();
   showToast(t('deleted'));
-  updateStats();
-  renderTransactions();
-  renderChart();
+  renderAll();
+}
+
+function openClearModal() { openModal('clearModal'); }
+function closeClearModal() { closeModal('clearModal'); }
+
+function confirmClearData() {
+  localStorage.removeItem('catatduit_expenses');
+  closeClearModal();
+  showToast(t('deleted'));
+  resetFilters();
+  renderAll();
+}
+
+function openModal(id) {
+  document.getElementById(id)?.classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+
+function closeModal(id) {
+  document.getElementById(id)?.classList.remove('open');
+  document.body.classList.remove('no-scroll');
 }
 
 // --- Share to WhatsApp ---
 function shareToWA() {
-  const expenses = getExpenses();
-  const monthExpenses = expenses.filter(e => isThisMonth(e.date));
+  const monthExpenses = getExpenses().filter(e => isThisMonth(e.date));
 
   if (monthExpenses.length === 0) {
-    showToast(currentLang === 'id' ? '📭 Tidak ada data bulan ini' : '📭 No data this month');
+    showToast(currentLang === 'id' ? 'Tidak ada data bulan ini' : 'No data this month');
     return;
   }
 
   const now = new Date();
-  const monthLabel = currentLang === 'id'
-    ? now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })
-    : now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const locale = currentLang === 'id' ? 'id-ID' : 'en-US';
+  const monthLabel = now.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+  const dateLabel = now.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
 
-  const dateLabel = currentLang === 'id'
-    ? now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
-    : now.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-
-  let msg = `💰 *Catat Pengeluaran - ${currentLang === 'id' ? 'Laporan' : 'Report'} ${monthLabel}*\n`;
+  let msg = `💰 *Catat Duit — ${currentLang === 'id' ? 'Laporan' : 'Report'} ${monthLabel}*\n`;
   msg += `📅 ${dateLabel}\n\n`;
 
-  // Group by category
-  const catTotals = {};
+  const totals = {};
   monthExpenses.forEach(e => {
-    catTotals[e.category] = (catTotals[e.category] || 0) + e.amount;
+    totals[e.category] = (totals[e.category] || 0) + (Number(e.amount) || 0);
   });
 
-  Object.entries(catTotals)
+  Object.entries(totals)
     .sort((a, b) => b[1] - a[1])
     .forEach(([cat, total]) => {
-      msg += `${getCategoryLabel(cat)}: ${formatCurrency(total)}\n`;
+      msg += `${categoryMeta(cat).emoji} ${categoryLabel(cat)}: ${formatCurrency(total)}\n`;
     });
 
-  const grandTotal = monthExpenses.reduce((s, e) => s + e.amount, 0);
   msg += `\n━━━━━━━━━━━━━━━━━━\n`;
-  msg += `*TOTAL: ${formatCurrency(grandTotal)}*\n`;
-  msg += `📊 ${monthExpenses.length} ${t('transactions')}\n\n`;
+  msg += `*TOTAL: ${formatCurrency(sum(monthExpenses))}*\n`;
+  msg += `📊 ${trxCount(monthExpenses.length)}\n\n`;
 
-  // Recent 5 transactions
-  const recent = [...monthExpenses].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+  const recent = [...monthExpenses]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 5);
+
   if (recent.length > 0) {
     msg += `📋 ${currentLang === 'id' ? 'Transaksi Terakhir' : 'Recent Transactions'}:\n`;
     recent.forEach(e => {
-      const dt = new Date(e.date);
-      const dateStr = `${dt.getDate()}/${dt.getMonth() + 1}`;
-      msg += `• ${dateStr} — ${e.note || getCategoryLabel(e.category)} — ${formatCurrency(e.amount)}\n`;
+      const dt = parseDateStr(e.date);
+      msg += `• ${dt.getDate()}/${dt.getMonth() + 1} — ${e.note || categoryLabel(e.category)} — ${formatCurrency(e.amount)}\n`;
     });
   }
 
-  msg += `\n_${currentLang === 'id' ? 'Dikirim dari' : 'Sent from'} Catatan Pengeluaran 📱`;
+  msg += `\n_${currentLang === 'id' ? 'Dikirim dari' : 'Sent from'} Catat Duit 📱`;
 
-  const encoded = encodeURIComponent(msg);
-  window.open(`https://wa.me/?text=${encoded}`, '_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-// --- PWA: install & service worker ---
+// --- Tabs ---
+function switchTab(tab) {
+  const views = ['home', 'stats', 'history', 'settings'];
+  const target = views.includes(tab) ? tab : 'home';
+
+  views.forEach(name => {
+    const view = document.getElementById('view-' + name);
+    if (view) view.hidden = name !== target;
+  });
+
+  document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === target);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (target === 'home') {
+    renderSpark();
+  } else if (target === 'stats') {
+    renderChart();
+  } else if (target === 'history') {
+    renderTransactions();
+  }
+}
+
+// --- PWA ---
 let deferredInstallPrompt = null;
 
 function isIOS() {
@@ -841,7 +1247,7 @@ function updateInstallButton() {
   if (!banner) return;
   const dismissed = sessionStorage.getItem('catatduit_install_dismissed') === '1';
   const show = !isStandalone() && !dismissed && (!!deferredInstallPrompt || isIOS());
-  banner.classList.toggle('hidden', !show);
+  banner.hidden = !show;
 }
 
 function dismissInstallBanner() {
@@ -860,18 +1266,13 @@ function promptInstall() {
     return;
   }
 
-  // Browser tanpa prompt otomatis (iOS/desktop tertentu): tampilkan petunjuk manual
-  document.getElementById('installHint').textContent =
-    isIOS() ? t('installHintIos') : t('installHintGeneric');
-  const modal = document.getElementById('installModal');
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
+  const hint = document.getElementById('installHint');
+  if (hint) hint.textContent = isIOS() ? t('installHintIos') : t('installHintGeneric');
+  openModal('installModal');
 }
 
 function closeInstallModal() {
-  const modal = document.getElementById('installModal');
-  modal.classList.add('hidden');
-  modal.classList.remove('flex');
+  closeModal('installModal');
 }
 
 function setupPWA() {
@@ -898,42 +1299,42 @@ function setupPWA() {
 }
 
 // --- Toast ---
+let toastTimer = null;
+
 function showToast(message) {
   const toast = document.getElementById('toast');
-  const toastMessage = document.getElementById('toastMessage');
-  toastMessage.textContent = message;
-  toast.classList.remove('hidden');
+  const text = document.getElementById('toastMessage');
+  if (!toast || !text) return;
 
-  setTimeout(() => {
-    toast.classList.add('hidden');
-  }, 3000);
+  text.textContent = message;
+  toast.classList.add('show');
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
-// --- Init ---
-function init() {
-  // Set default date
-  document.getElementById('inputDate').value = getToday();
-
-  // Set default month filter to current month
-  const now = new Date();
-  const monthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-  document.getElementById('filterMonth').value = monthStr;
-
-  // Apply theme & language
-  applyTheme();
-  applyLang();
-
-  // Sync date filter UI
-  updateFilterUI();
-
-  // PWA: tombol pasang + service worker
-  setupPWA();
-
-  // Render
+// --- Render all ---
+function renderAll() {
+  renderHeader();
   updateStats();
+  renderRecent();
+  renderSpark();
+  updateFilterUI();
   renderTransactions();
   renderChart();
 }
 
-// Run
+// --- Init ---
+function init() {
+  document.getElementById('inputDate').value = getToday();
+
+  applyTheme();
+  buildCategoryGrid();
+  applyLang();
+
+  setupPWA();
+  switchTab('home');
+  renderAll();
+}
+
 document.addEventListener('DOMContentLoaded', init);

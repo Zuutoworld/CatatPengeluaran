@@ -1,7 +1,7 @@
 {
-  "name": "Catat Pengeluaran - CatatDuit",
+  "name": "Catat Duit — Catat Pengeluaran Harian",
   "short_name": "Catat Duit",
-  "description": "Aplikasi pencatat pengeluaran harian. Data tersimpan di browser kamu.",
+  "description": "Aplikasi pencatat pengeluaran harian. Ringan, tanpa backend, data tersimpan di browser kamu.",
   "lang": "id",
   "dir": "ltr",
   "id": "./",
@@ -9,8 +9,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#020617",
-  "theme_color": "#4f46e5",
+  "background_color": "#f6f8fd",
+  "theme_color": "#2f6bff",
   "categories": ["finance", "productivity", "utilities"],
   "icons": [
     {
