@@ -25,6 +25,9 @@ const translations = {
     noDataChart: 'Belum ada data untuk ditampilkan',
     expenseList: 'Daftar Pengeluaran',
     searchHint: 'Cari catatan...',
+    filterCategory: 'Filter kategori',
+    filterMonth: 'Filter bulan',
+    toggleTheme: 'Ganti tema',
     searchDateHint: 'Cari berdasarkan tanggal',
     resetDateFilter: 'Reset filter tanggal',
     todayShort: 'Hari Ini',
@@ -44,6 +47,17 @@ const translations = {
     saved: '✅ Pengeluaran tersimpan!',
     updated: '✅ Pengeluaran diperbarui!',
     deleted: '🗑️ Pengeluaran dihapus!',
+    install: 'Pasang',
+    installBannerTitle: 'Pasang sebagai aplikasi',
+    installBannerSubtitle: 'Buka lebih cepat dari layar utama HP',
+    close: 'Tutup',
+    installTitle: 'Pasang Catat Duit',
+    installSubtitle: 'Akses cepat dari layar utama HP',
+    installHintIos: 'Di iPhone/iPad: buka aplikasi ini di Safari, ketuk tombol Bagikan (kotak dengan panah ke atas), lalu pilih "Tambah ke Layar Utama".',
+    installHintGeneric: 'Buka menu browser (⋮) di kanan atas, lalu pilih "Instal aplikasi" atau "Tambahkan ke layar utama".',
+    installing: '📲 Menginstal aplikasi...',
+    installedApp: '🎉 Aplikasi berhasil dipasang!',
+    gotIt: 'Mengerti',
     // categories
     catFood: '🍔 Makanan & Minuman',
     catTransport: '🚗 Transportasi',
@@ -73,6 +87,9 @@ const translations = {
     noDataChart: 'No data to display yet',
     expenseList: 'Expense List',
     searchHint: 'Search notes...',
+    filterCategory: 'Filter category',
+    filterMonth: 'Filter month',
+    toggleTheme: 'Toggle theme',
     searchDateHint: 'Search by date',
     resetDateFilter: 'Reset date filter',
     todayShort: 'Today',
@@ -92,6 +109,17 @@ const translations = {
     saved: '✅ Expense saved!',
     updated: '✅ Expense updated!',
     deleted: '🗑️ Expense deleted!',
+    install: 'Install',
+    installBannerTitle: 'Install as an app',
+    installBannerSubtitle: 'Open faster from your home screen',
+    close: 'Close',
+    installTitle: 'Install Catat Duit',
+    installSubtitle: 'Quick access from your home screen',
+    installHintIos: 'On iPhone/iPad: open this app in Safari, tap the Share button (box with an arrow), then choose "Add to Home Screen".',
+    installHintGeneric: 'Open the browser menu (⋮) at the top right, then choose "Install app" or "Add to Home screen".',
+    installing: '📲 Installing app...',
+    installedApp: '🎉 App installed successfully!',
+    gotIt: 'Got it',
     catFood: '🍔 Food & Drinks',
     catTransport: '🚗 Transport',
     catShopping: '🛍️ Shopping',
@@ -209,6 +237,7 @@ function applyTheme() {
   const lightBg = document.getElementById('lightBg');
   const moonIcon = document.getElementById('moonIcon');
   const sunIcon = document.getElementById('sunIcon');
+  const themeMeta = document.getElementById('themeColorMeta');
   const body = document.body;
 
   if (currentTheme === 'dark') {
@@ -227,6 +256,10 @@ function applyTheme() {
     lightBg?.classList.remove('hidden');
     moonIcon?.classList.add('hidden');
     sunIcon?.classList.remove('hidden');
+  }
+
+  if (themeMeta) {
+    themeMeta.content = currentTheme === 'dark' ? '#020617' : '#f8fafc';
   }
 }
 
@@ -260,6 +293,13 @@ function applyLang() {
     const key = el.getAttribute('data-i18n-title');
     if (translations[currentLang]?.[key]) {
       el.title = translations[currentLang][key];
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria-label');
+    if (translations[currentLang]?.[key]) {
+      el.setAttribute('aria-label', translations[currentLang][key]);
     }
   });
 
@@ -783,6 +823,80 @@ function shareToWA() {
   window.open(`https://wa.me/?text=${encoded}`, '_blank');
 }
 
+// --- PWA: install & service worker ---
+let deferredInstallPrompt = null;
+
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+}
+
+function updateInstallButton() {
+  const banner = document.getElementById('installBanner');
+  if (!banner) return;
+  const dismissed = sessionStorage.getItem('catatduit_install_dismissed') === '1';
+  const show = !isStandalone() && !dismissed && (!!deferredInstallPrompt || isIOS());
+  banner.classList.toggle('hidden', !show);
+}
+
+function dismissInstallBanner() {
+  sessionStorage.setItem('catatduit_install_dismissed', '1');
+  updateInstallButton();
+}
+
+function promptInstall() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') showToast(t('installing'));
+      deferredInstallPrompt = null;
+      updateInstallButton();
+    }).catch(() => {});
+    return;
+  }
+
+  // Browser tanpa prompt otomatis (iOS/desktop tertentu): tampilkan petunjuk manual
+  document.getElementById('installHint').textContent =
+    isIOS() ? t('installHintIos') : t('installHintGeneric');
+  const modal = document.getElementById('installModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeInstallModal() {
+  const modal = document.getElementById('installModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+
+function setupPWA() {
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    updateInstallButton();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    updateInstallButton();
+    closeInstallModal();
+    showToast(t('installedApp'));
+  });
+
+  updateInstallButton();
+
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+}
+
 // --- Toast ---
 function showToast(message) {
   const toast = document.getElementById('toast');
@@ -811,6 +925,9 @@ function init() {
 
   // Sync date filter UI
   updateFilterUI();
+
+  // PWA: tombol pasang + service worker
+  setupPWA();
 
   // Render
   updateStats();

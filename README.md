@@ -12,6 +12,7 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 - 🌐 Bilingual (Indonesia / English)
 - 📱 Share ke WhatsApp
 - 💾 Data tersimpan di LocalStorage browser
+- 📲 Bisa dipasang di HP (PWA) & tetap terbuka saat offline
 
 ## Tech Stack
 
@@ -19,6 +20,7 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 - Tailwind CSS v4 (CDN)
 - Vanilla JavaScript
 - Chart.js
+- PWA (manifest + service worker)
 
 ## Deploy (Gratis!)
 
@@ -29,20 +31,42 @@ Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di b
 3. Framework Preset: **Other**, Build Command & Output Directory dibiarkan kosong
 4. Deploy! ✅
 
+Penting: aplikasi hanya bisa dipasang di HP kalau dibuka lewat **HTTPS**
+(domain `*.vercel.app` sudah otomatis HTTPS). Membuka file `index.html`
+langsung dari memori HP **tidak bisa** di-install.
+
 ### Cara 2: GitHub Pages
 
 1. Push ke GitHub
 2. Settings → Pages → Source: `main` branch
 3. Selesai!
 
+## Instal di HP
+
+**Android (Chrome):** buka URL aplikasi → banner "Pasang sebagai aplikasi" →
+tombol **Pasang**. Kalau banner tidak muncul, buka menu ⋮ → **Instal aplikasi**.
+
+**iPhone/iPad (Safari):** buka URL aplikasi di Safari → tombol **Bagikan** →
+**Tambah ke Layar Utama** → **Tambah**.
+
+Setelah dipasang, aplikasi punya ikon sendiri, terbuka layar penuh tanpa
+address bar, dan riwayat pengeluaran tetap tersimpan di browser HP.
+
 ## Struktur File
 
 ```
-├── index.html      # Halaman utama
-├── app.js          # Logic aplikasi
-├── vercel.json     # Config Vercel
+├── index.html            # Halaman utama
+├── app.js                # Logic aplikasi
+├── sw.js                 # Service worker (offline & PWA)
+├── manifest.json         # Manifest aplikasi (PWA)
+├── icon-192.png          # Ikon aplikasi
+├── icon-512.png          # Ikon aplikasi (high-res & maskable)
+├── apple-touch-icon.png  # Ikon iOS
+├── favicon-64.png        # Favicon
+├── favicon.ico
+├── vercel.json           # Config Vercel
 ├── .gitignore
-└── README.md       # Dokumentasi
+└── README.md             # Dokumentasi
 ```
 
 ## Lisensi

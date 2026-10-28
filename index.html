@@ -7,6 +7,17 @@
   <title>CatatDuit - Catat Pengeluaran Harian</title>
   <meta name="description" content="Aplikasi pencatat pengeluaran harian gratis. Kelola keuangan pribadi dengan mudah.">
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" id="themeColorMeta" content="#020617">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Catat Duit">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="icon" href="favicon.ico" sizes="any">
+
   <!-- Tailwind CSS v4 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
@@ -333,7 +344,7 @@
           🇮🇩 ID
         </button>
         <!-- Dark Mode Toggle -->
-        <button id="themeToggle" onclick="toggleTheme()"
+        <button id="themeToggle" onclick="toggleTheme()" aria-label="Ganti tema" data-i18n-aria-label="toggleTheme"
           class="w-10 h-10 rounded-xl bg-surface-800/80 dark:bg-surface-800/80 flex items-center justify-center hover:bg-surface-700 transition-all border border-surface-700/50 cursor-pointer">
           <svg id="moonIcon" class="w-5 h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             stroke-width="2">
@@ -349,6 +360,27 @@
       </div>
     </div>
   </header>
+
+  <!-- Install banner (muncul saat aplikasi bisa dipasang) -->
+  <div id="installBanner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+    <div class="glass rounded-xl px-4 py-3 flex items-center gap-3">
+      <img src="icon-192.png" alt="" class="w-10 h-10 rounded-lg shadow-lg shadow-primary-500/20 flex-shrink-0">
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold" data-i18n="installBannerTitle">Pasang sebagai aplikasi</p>
+        <p class="text-xs text-surface-200/60" data-i18n="installBannerSubtitle">Buka lebih cepat dari layar utama HP</p>
+      </div>
+      <button onclick="promptInstall()"
+        class="px-3.5 py-2 rounded-lg bg-primary-600 text-white text-xs font-semibold hover:bg-primary-500 transition-all cursor-pointer whitespace-nowrap flex-shrink-0"
+        data-i18n="install">Pasang</button>
+      <button id="installBannerClose" onclick="dismissInstallBanner()" aria-label="Tutup"
+        data-i18n-aria-label="close"
+        class="w-8 h-8 rounded-lg text-surface-200/50 hover:text-white hover:bg-surface-700/50 flex items-center justify-center transition-all cursor-pointer flex-shrink-0">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
@@ -432,7 +464,7 @@
         </h2>
         <form id="expenseForm" class="space-y-4" onsubmit="handleSubmit(event)">
           <div>
-            <label class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="amount">Jumlah</label>
+            <label for="inputAmount" class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="amount">Jumlah</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-surface-200/50 text-sm font-medium">Rp</span>
               <input type="number" id="inputAmount" required min="1"
@@ -441,8 +473,8 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="category">Kategori</label>
-            <select id="inputCategory" required
+            <label for="inputCategory" class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="category">Kategori</label>
+            <select id="inputCategory" aria-label="Kategori" data-i18n-aria-label="category" required
               class="w-full px-4 py-3 rounded-xl bg-surface-900/50 dark:bg-surface-900/50 border border-surface-700/50 text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/50 transition-all text-sm appearance-none cursor-pointer">
               <option value="" disabled selected data-i18n="selectCategory">-- Pilih Kategori --</option>
               <option value="food">🍔 Makanan & Minuman</option>
@@ -456,13 +488,13 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="note">Catatan</label>
+            <label for="inputNote" class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="note">Catatan</label>
             <input type="text" id="inputNote"
               class="w-full px-4 py-3 rounded-xl bg-surface-900/50 dark:bg-surface-900/50 border border-surface-700/50 text-white placeholder-surface-200/30 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/50 transition-all text-sm"
               data-i18n-placeholder="noteHint" placeholder="Contoh: Makan siang di warteg">
           </div>
           <div>
-            <label class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="date">Tanggal</label>
+            <label for="inputDate" class="block text-xs font-medium text-surface-200/70 mb-1.5" data-i18n="date">Tanggal</label>
             <input type="date" id="inputDate" required
               class="w-full px-4 py-3 rounded-xl bg-surface-900/50 dark:bg-surface-900/50 border border-surface-700/50 text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/50 transition-all text-sm">
           </div>
@@ -520,7 +552,7 @@
               data-i18n-placeholder="searchHint" placeholder="Cari catatan...">
           </div>
           <!-- Category Filter -->
-          <select id="filterCategory" onchange="renderTransactions()"
+          <select id="filterCategory" aria-label="Filter kategori" data-i18n-aria-label="filterCategory" onchange="renderTransactions()"
             class="px-3 py-2 rounded-lg bg-surface-900/50 border border-surface-700/50 text-white text-xs focus:outline-none focus:border-primary-500 transition-all cursor-pointer appearance-none">
             <option value="all" data-i18n="allCategories">Semua Kategori</option>
             <option value="food">🍔 Makanan</option>
@@ -533,7 +565,7 @@
             <option value="other">📦 Lainnya</option>
           </select>
           <!-- Month Filter -->
-          <input type="month" id="filterMonth" onchange="onMonthFilterChange()"
+          <input type="month" id="filterMonth" aria-label="Filter bulan" data-i18n-aria-label="filterMonth" onchange="onMonthFilterChange()"
             class="px-3 py-2 rounded-lg bg-surface-900/50 border border-surface-700/50 text-white text-xs focus:outline-none focus:border-primary-500 transition-all">
           <!-- Date Filter -->
           <div class="flex items-center gap-1">
@@ -596,6 +628,23 @@
           class="flex-1 py-2.5 rounded-xl bg-expense-600 text-white text-sm font-medium hover:bg-expense-500 transition-all cursor-pointer"
           data-i18n="delete">Hapus</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Install / Add to Home Screen Modal -->
+  <div id="installModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay">
+    <div class="glass rounded-2xl p-6 max-w-sm w-full mx-4 animate-scale-in">
+      <div class="flex items-center gap-3 mb-4">
+        <img src="icon-192.png" alt="Catat Duit" class="w-12 h-12 rounded-xl shadow-lg shadow-primary-500/25">
+        <div>
+          <h3 class="text-base font-bold" data-i18n="installTitle">Pasang Catat Duit</h3>
+          <p class="text-xs text-surface-200/60" data-i18n="installSubtitle">Akses cepat dari layar utama HP</p>
+        </div>
+      </div>
+      <p id="installHint" class="text-sm text-surface-200/70 mb-5 leading-relaxed"></p>
+      <button onclick="closeInstallModal()"
+        class="w-full py-2.5 rounded-xl bg-primary-600 text-white text-sm font-medium hover:bg-primary-500 transition-all cursor-pointer"
+        data-i18n="gotIt">Mengerti</button>
     </div>
   </div>
 
