@@ -1,19 +1,21 @@
-# CatatDuit 💰
+# Money Management 💰
 
-Aplikasi pencatat pengeluaran harian. Gratis, tanpa backend, data tersimpan di browser.
+Aplikasi pencatat pemasukan **dan** pengeluaran harian. Gratis, tanpa backend, data tersimpan di browser.
 
 🔗 **Live:** https://catat-pengeluaran-ecru.vercel.app
 
 ## Fitur
 
-- ✅ Tambah, edit, hapus pengeluaran
+- ✅ Tambah, edit, hapus pemasukan & pengeluaran
+- 💵 Kategori pemasukan (gaji, freelance, usaha, investasi, bonus, hadiah, lain-lain)
+- 📈 Saldo bulan ini, saldo harian & mingguan otomatis (masuk − keluar)
 - 📅 Pencarian per tanggal (riwayat hari-hari sebelumnya tetap tersimpan)
-- 📊 Grafik pengeluaran (kategori & harian)
-- 🔍 Filter tanggal, bulan, kategori & pencarian
+- 📊 Grafik per jenis (kategori & harian)
+- 🔍 Filter tanggal, bulan, jenis, kategori & pencarian
 - 🧭 Bottom navigation + tombol tambah cepat
 - 🌙 Dark / Light mode
 - 🌐 Bilingual (Indonesia / English)
-- 📱 Share ke WhatsApp
+- 📱 Share ke WhatsApp (ringkasan masuk/keluar/saldo + rincian)
 - 💾 Data tersimpan di LocalStorage browser
 - 📲 Bisa dipasang di HP (PWA) & tetap terbuka saat offline
 

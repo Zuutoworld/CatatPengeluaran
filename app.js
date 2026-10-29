@@ -9,6 +9,21 @@ const translations = {
   id: {
     appName: "Money Management",
     monthSpending: "Pengeluaran bulan ini",
+    monthBalance: "Saldo bulan ini",
+    balanceToday: "Saldo hari ini",
+    balanceWeek: "Saldo minggu ini",
+    monthIncome: "Pemasukan bulan ini",
+    monthExpense: "Pengeluaran bulan ini",
+    income: "Pemasukan",
+    expense: "Pengeluaran",
+    type: "Jenis",
+    allTypes: "Semua",
+    inShort: "masuk",
+    outShort: "keluar",
+    balance: "Saldo",
+    totalIn: "MASUK",
+    totalOut: "KELUAR",
+    totalBalance: "SALDO",
     today: "Hari ini",
     thisWeek: "Minggu ini",
     thisMonth: "Bulan ini",
@@ -43,7 +58,7 @@ const translations = {
     pulledLabel: "Ditarik",
     allData: "Semua data",
     details: "Rincian",
-    perDay: "Per hari",
+    perDay: "Saldo per hari",
     andMore: "lainnya",
     noDataShare: "Tidak ada data untuk dikirim",
     clearData: "Hapus semua data",
@@ -55,6 +70,8 @@ const translations = {
     navSettings: "Atur",
     addExpense: "Tambah Pengeluaran",
     editExpense: "Edit Pengeluaran",
+    addIncome: "Tambah Pemasukan",
+    editIncome: "Edit Pemasukan",
     amount: "Jumlah",
     category: "Kategori",
     note: "Catatan",
@@ -63,20 +80,20 @@ const translations = {
     update: "Update",
     delete: "Hapus",
     cancel: "Batal",
-    noExpenses: "Belum ada pengeluaran. Yuk mulai catat!",
-    noResult: "Tidak ada pengeluaran pada filter ini.",
-    noResultDate: "Tidak ada pengeluaran pada tanggal ini.",
-    resultOn: "Pengeluaran tanggal",
+    noExpenses: "Belum ada catatan. Yuk mulai catat!",
+    noResult: "Tidak ada catatan pada filter ini.",
+    noResultDate: "Tidak ada catatan pada tanggal ini.",
+    resultOn: "Catatan tanggal",
     allCategories: "Semua",
     filterCategory: "Kategori",
     todayFilter: "Hari Ini",
-    confirmDelete: "Hapus Pengeluaran?",
+    confirmDelete: "Hapus catatan?",
     confirmDeleteMsg: "Data yang dihapus tidak bisa dikembalikan.",
     clearDataMsg:
-      "Semua catatan pengeluaran akan dihapus permanen dari browser ini.",
-    saved: "Pengeluaran tersimpan!",
-    updated: "Pengeluaran diperbarui!",
-    deleted: "Pengeluaran dihapus!",
+      "Semua catatan pengeluaran dan pemasukan akan dihapus permanen dari browser ini.",
+    saved: "Catatan tersimpan!",
+    updated: "Catatan diperbarui!",
+    deleted: "Catatan dihapus!",
     selectCategory: "Pilih kategori dulu ya",
     noteHint: "Contoh: Makan siang",
     install: "Pasang",
@@ -102,10 +119,32 @@ const translations = {
     catHealth: "Kesehatan",
     catEducation: "Pendidikan",
     catOther: "Lainnya",
+    catSalary: "Gaji",
+    catFreelance: "Freelance",
+    catBusiness: "Usaha",
+    catInvestment: "Investasi",
+    catBonus: "Bonus",
+    catGift: "Hadiah",
+    catOtherIncome: "Pemasukan Lain",
   },
   en: {
     appName: "Money Management",
     monthSpending: "Spending this month",
+    monthBalance: "Balance this month",
+    balanceToday: "Balance today",
+    balanceWeek: "Balance this week",
+    monthIncome: "Income this month",
+    monthExpense: "Expense this month",
+    income: "Income",
+    expense: "Expense",
+    type: "Type",
+    allTypes: "All",
+    inShort: "in",
+    outShort: "out",
+    balance: "Balance",
+    totalIn: "INCOME",
+    totalOut: "EXPENSE",
+    totalBalance: "BALANCE",
     today: "Today",
     thisWeek: "This week",
     thisMonth: "This month",
@@ -140,7 +179,7 @@ const translations = {
     pulledLabel: "Captured",
     allData: "All data",
     details: "Details",
-    perDay: "Per day",
+    perDay: "Daily balance",
     andMore: "more",
     noDataShare: "No data to send",
     clearData: "Delete all data",
@@ -152,6 +191,8 @@ const translations = {
     navSettings: "Settings",
     addExpense: "Add Expense",
     editExpense: "Edit Expense",
+    addIncome: "Add Income",
+    editIncome: "Edit Income",
     amount: "Amount",
     category: "Category",
     note: "Note",
@@ -160,17 +201,17 @@ const translations = {
     update: "Update",
     delete: "Delete",
     cancel: "Cancel",
-    noExpenses: "No expenses yet. Start tracking!",
-    noResult: "No expenses match this filter.",
-    noResultDate: "No expenses on this date.",
-    resultOn: "Expenses on",
+    noExpenses: "No records yet. Start tracking!",
+    noResult: "No records match this filter.",
+    noResultDate: "No records on this date.",
+    resultOn: "Records on",
     allCategories: "All",
     filterCategory: "Category",
     todayFilter: "Today",
-    confirmDelete: "Delete Expense?",
+    confirmDelete: "Delete record?",
     confirmDeleteMsg: "Deleted data cannot be recovered.",
     clearDataMsg:
-      "All expense records will be permanently deleted from this browser.",
+      "All income and expense records will be permanently deleted from this browser.",
     saved: "Expense saved!",
     updated: "Expense updated!",
     deleted: "Expense deleted!",
@@ -199,11 +240,18 @@ const translations = {
     catHealth: "Health",
     catEducation: "Education",
     catOther: "Other",
+    catSalary: "Salary",
+    catFreelance: "Freelance",
+    catBusiness: "Business",
+    catInvestment: "Investment",
+    catBonus: "Bonus",
+    catGift: "Gift",
+    catOtherIncome: "Other Income",
   },
 };
 
 // --- Categories ---
-const categories = {
+const expenseCategories = {
   food: {
     emoji: "🍔",
     label: "catFood",
@@ -253,7 +301,67 @@ const categories = {
     soft: "rgba(148,163,184,.16)",
   },
 };
+
+const incomeCategories = {
+  salary: {
+    emoji: "💼",
+    label: "catSalary",
+    color: "#10b981",
+    soft: "rgba(16,185,129,.14)",
+  },
+  freelance: {
+    emoji: "🧑‍💻",
+    label: "catFreelance",
+    color: "#22d3ee",
+    soft: "rgba(34,211,238,.14)",
+  },
+  business: {
+    emoji: "🏪",
+    label: "catBusiness",
+    color: "#f59e0b",
+    soft: "rgba(245,158,11,.16)",
+  },
+  investment: {
+    emoji: "📈",
+    label: "catInvestment",
+    color: "#8b5cf6",
+    soft: "rgba(139,92,246,.16)",
+  },
+  bonus: {
+    emoji: "🏆",
+    label: "catBonus",
+    color: "#eab308",
+    soft: "rgba(234,179,8,.16)",
+  },
+  gift: {
+    emoji: "🎁",
+    label: "catGift",
+    color: "#ec4899",
+    soft: "rgba(236,72,153,.14)",
+  },
+  otherIncome: {
+    emoji: "💰",
+    label: "catOtherIncome",
+    color: "#94a3b8",
+    soft: "rgba(148,163,184,.16)",
+  },
+};
+
+// Semua kategori digabung untuk lookup label/warna
+const categories = { ...expenseCategories, ...incomeCategories };
 const categoryList = Object.keys(categories);
+
+function categoriesFor(type) {
+  return Object.keys(type === "income" ? incomeCategories : expenseCategories);
+}
+
+function categoryType(cat) {
+  return incomeCategories[cat] ? "income" : "expense";
+}
+
+function entryType(entry) {
+  return entry?.type === "income" ? "income" : "expense";
+}
 
 // --- State ---
 let currentLang = localStorage.getItem("catatduit_lang") || "id";
@@ -263,12 +371,17 @@ let deleteTargetId = null;
 let expenseChart = null;
 let sparkChart = null;
 let filterCat = "all";
+let filterType = "all";
+let formType = "expense";
+let statType = "expense";
 
 // --- Helpers ---
 function getExpenses() {
   try {
     const raw = JSON.parse(localStorage.getItem("catatduit_expenses") || "[]");
-    return Array.isArray(raw) ? raw : [];
+    if (!Array.isArray(raw)) return [];
+    // Data lama belum punya `type`, anggap pengeluaran
+    return raw.map(e => ({ ...e, type: entryType(e) }));
   } catch (e) {
     return [];
   }
@@ -283,7 +396,9 @@ function generateId() {
 }
 
 function formatCurrency(num) {
-  return "Rp " + Math.round(Number(num) || 0).toLocaleString("id-ID");
+  const value = Math.round(Number(num) || 0);
+  const sign = value < 0 ? "-" : "";
+  return sign + "Rp " + Math.abs(value).toLocaleString("id-ID");
 }
 
 function t(key) {
@@ -373,6 +488,30 @@ function sum(list) {
   return list.reduce((s, e) => s + (Number(e.amount) || 0), 0);
 }
 
+function sumByType(list, type) {
+  return sum(list.filter(e => entryType(e) === type));
+}
+
+function totalsOf(list) {
+  const incomeList = list.filter(e => entryType(e) === "income");
+  const expenseList = list.filter(e => entryType(e) === "expense");
+  const income = sum(incomeList);
+  const expense = sum(expenseList);
+
+  return {
+    income,
+    expense,
+    net: income - expense,
+    incomeCount: incomeList.length,
+    expenseCount: expenseList.length,
+    count: list.length,
+  };
+}
+
+function flowText(totals) {
+  return `${totals.incomeCount} ${t("inShort")} · ${totals.expenseCount} ${t("outShort")}`;
+}
+
 // --- Theme ---
 function applyTheme() {
   const html = document.documentElement;
@@ -453,6 +592,8 @@ function applyLang() {
 
   buildCategoryGrid();
   renderCategoryChips();
+  syncFormTypeUI();
+  syncStatTypeUI();
   updateSheetMode();
   updateFilterUI();
 }
@@ -481,32 +622,29 @@ function renderHeader() {
 
 // --- Home ---
 function updateStats() {
-  const expenses = getExpenses();
-  const today = expenses.filter((e) => isToday(e.date));
-  const week = expenses.filter((e) => isThisWeek(e.date));
-  const month = expenses.filter((e) => isThisMonth(e.date));
+  const entries = getExpenses();
+  const today = entries.filter(e => isToday(e.date));
+  const week = entries.filter(e => isThisWeek(e.date));
+  const month = entries.filter(e => isThisMonth(e.date));
 
-  document.getElementById("statToday").textContent = formatCurrency(sum(today));
-  document.getElementById("statWeek").textContent = formatCurrency(sum(week));
-  document.getElementById("statMonth").textContent = formatCurrency(sum(month));
-  document.getElementById("statTotal").textContent = formatCurrency(
-    sum(expenses),
-  );
+  const todayTotals = totalsOf(today);
+  const weekTotals = totalsOf(week);
+  const monthTotals = totalsOf(month);
 
-  document.getElementById("statTodayCount").textContent = trxCount(
-    today.length,
-  );
-  document.getElementById("statWeekCount").textContent = trxCount(week.length);
-  document.getElementById("statMonthCount").textContent = trxCount(
-    month.length,
-  );
-  document.getElementById("statTotalCount").textContent = trxCount(
-    expenses.length,
-  );
+  document.getElementById("statToday").textContent = formatCurrency(todayTotals.net);
+  document.getElementById("statWeek").textContent = formatCurrency(weekTotals.net);
+  document.getElementById("statIncome").textContent = formatCurrency(monthTotals.income);
+  document.getElementById("statExpense").textContent = formatCurrency(monthTotals.expense);
 
-  document.getElementById("heroTotal").textContent = formatCurrency(sum(month));
-  document.getElementById("heroToday").textContent = formatCurrency(sum(today));
-  document.getElementById("heroCount").textContent = trxCount(month.length);
+  document.getElementById("statTodayCount").textContent = flowText(todayTotals);
+  document.getElementById("statWeekCount").textContent = flowText(weekTotals);
+  document.getElementById("statIncomeCount").textContent = trxCount(monthTotals.incomeCount);
+  document.getElementById("statExpenseCount").textContent = trxCount(monthTotals.expenseCount);
+
+  document.getElementById("heroTotal").textContent = formatCurrency(monthTotals.net);
+  document.getElementById("heroIncome").textContent = formatCurrency(monthTotals.income);
+  document.getElementById("heroExpense").textContent = formatCurrency(monthTotals.expense);
+  document.getElementById("heroCount").textContent = trxCount(monthTotals.count);
 }
 
 function renderRecent() {
@@ -554,7 +692,9 @@ function renderSpark() {
 
   getExpenses().forEach((e) => {
     const hit = days.find((d) => d.key === e.date);
-    if (hit) hit.total += Number(e.amount) || 0;
+    if (!hit) return;
+    const amount = Number(e.amount) || 0;
+    hit.total += entryType(e) === "income" ? amount : -amount;
   });
 
   sparkChart = new Chart(canvas, {
@@ -564,11 +704,12 @@ function renderSpark() {
       datasets: [
         {
           data: days.map((d) => d.total),
-          backgroundColor: days.map((d, i) =>
-            i === days.length - 1
+          backgroundColor: days.map((d, i) => {
+            if (d.total < 0) return "rgba(255,145,135,.85)";
+            return i === days.length - 1
               ? "rgba(255,255,255,.95)"
-              : "rgba(255,255,255,.34)",
-          ),
+              : "rgba(255,255,255,.34)";
+          }),
           borderRadius: 5,
           borderSkipped: false,
           barPercentage: 0.62,
@@ -588,7 +729,10 @@ function renderSpark() {
         legend: { display: false },
         tooltip: {
           displayColors: false,
-          callbacks: { label: (ctx) => formatCurrency(ctx.parsed.y) },
+          callbacks: {
+            title: (items) => formatDayLabel(days[items[0].dataIndex].key),
+            label: (ctx) => `${t("balance")}: ${formatCurrency(ctx.parsed.y)}`,
+          },
         },
       },
       animation: { duration: 500 },
@@ -608,6 +752,21 @@ function setChartView(view) {
   renderChart();
 }
 
+function syncStatTypeUI() {
+  document
+    .getElementById("statExpenseBtn")
+    ?.classList.toggle("active", statType === "expense");
+  document
+    .getElementById("statIncomeBtn")
+    ?.classList.toggle("active", statType === "income");
+}
+
+function setStatType(type) {
+  statType = type === "income" ? "income" : "expense";
+  syncStatTypeUI();
+  renderChart();
+}
+
 function renderChart() {
   const viewStats = document.getElementById("view-stats");
   if (!viewStats || viewStats.hidden) return;
@@ -615,7 +774,9 @@ function renderChart() {
   const canvas = document.getElementById("expenseChart");
   if (!canvas) return;
 
-  const monthExpenses = getExpenses().filter((e) => isThisMonth(e.date));
+  const monthExpenses = getExpenses().filter(
+    e => isThisMonth(e.date) && entryType(e) === statType,
+  );
   const emptyMsg = document.getElementById("chartEmpty");
   const legend = document.getElementById("chartLegend");
   const donutCenter = document.getElementById("donutCenter");
@@ -628,15 +789,14 @@ function renderChart() {
   const monthTotal = sum(monthExpenses);
   const donutTotal = document.getElementById("donutTotal");
   if (donutTotal) donutTotal.textContent = formatCurrency(monthTotal);
+  const donutLabel = document.getElementById("donutLabel");
+  if (donutLabel) donutLabel.textContent = t(statType);
 
   if (legend) legend.innerHTML = "";
 
   if (monthExpenses.length === 0) {
     if (emptyMsg) emptyMsg.hidden = false;
     if (donutCenter) donutCenter.style.display = "none";
-    if (typeof Chart !== "undefined") {
-      // leave canvas blank
-    }
     renderInsight(monthExpenses);
     return;
   }
@@ -849,12 +1009,30 @@ function clearMonthFilter() {
 
 function setCategoryFilter(cat) {
   filterCat = categories[cat] ? cat : "all";
+
+  // Kalau kategori yang dipilih beda jenis dengan filter aktif, ikuti jenisnya
+  if (filterCat !== "all" && filterType !== "all" && categoryType(filterCat) !== filterType) {
+    filterType = categoryType(filterCat);
+  }
+
+  updateFilterUI();
+  renderTransactions();
+}
+
+function setFilterType(type) {
+  filterType = type === "income" || type === "expense" ? type : "all";
+
+  if (filterCat !== "all" && filterType !== "all" && categoryType(filterCat) !== filterType) {
+    filterCat = "all";
+  }
+
   updateFilterUI();
   renderTransactions();
 }
 
 function resetFilters() {
   filterCat = "all";
+  filterType = "all";
   document.getElementById("filterDate").value = "";
   document.getElementById("filterMonth").value = "";
   const search = document.getElementById("searchInput");
@@ -868,12 +1046,19 @@ function currentFilters() {
     date: document.getElementById("filterDate")?.value || "",
     month: document.getElementById("filterMonth")?.value || "",
     cat: filterCat,
+    type: filterType,
     search: (document.getElementById("searchInput")?.value || "").trim(),
   };
 }
 
 function hasActiveFilter(f) {
-  return !!(f.date || f.month || (f.cat && f.cat !== "all") || f.search);
+  return !!(
+    f.date ||
+    f.month ||
+    (f.cat && f.cat !== "all") ||
+    (f.type && f.type !== "all") ||
+    f.search
+  );
 }
 
 function updateFilterUI() {
@@ -893,9 +1078,20 @@ function updateFilterUI() {
   if (todayBtn)
     todayBtn.classList.toggle("active", !!f.date && f.date === getToday());
 
+  document
+    .getElementById("filterTypeAllBtn")
+    ?.classList.toggle("active", f.type === "all");
+  document
+    .getElementById("filterTypeExpenseBtn")
+    ?.classList.toggle("active", f.type === "expense");
+  document
+    .getElementById("filterTypeIncomeBtn")
+    ?.classList.toggle("active", f.type === "income");
+
   const active = hasActiveFilter(f);
   if (dot) dot.hidden = !active;
-  if (filterBtn) filterBtn.classList.toggle("active", !!(f.date || f.month));
+  if (filterBtn)
+    filterBtn.classList.toggle("active", !!(f.date || f.month || f.type !== "all"));
 
   renderCategoryChips();
   renderActiveFilters(f);
@@ -909,7 +1105,9 @@ function renderCategoryChips() {
     `<button class="chip ${filterCat === "all" ? "active" : ""}" onclick="setCategoryFilter('all')">${esc(t("allCategories"))}</button>`,
   ];
 
-  categoryList.forEach((cat) => {
+  const list = filterType === "all" ? categoryList : categoriesFor(filterType);
+
+  list.forEach((cat) => {
     const meta = categoryMeta(cat);
     chips.push(
       `<button class="chip ${filterCat === cat ? "active" : ""}" onclick="setCategoryFilter('${cat}')">
@@ -927,6 +1125,12 @@ function renderActiveFilters(f) {
 
   const parts = [];
 
+  if (f.type && f.type !== "all") {
+    parts.push(`<button class="active-chip" onclick="setFilterType('all')">
+      ${f.type === "income" ? "💰" : "💸"} ${esc(t(f.type))}
+      ${closeIcon()}
+    </button>`);
+  }
   if (f.date) {
     parts.push(`<button class="active-chip" onclick="clearDateFilter()">
       📅 ${esc(formatDayLabel(f.date))}
@@ -974,7 +1178,9 @@ function openExpenseSheet(id) {
   document.getElementById("inputCategory").value = "";
   document.getElementById("inputDate").value = getToday();
   document.getElementById("btnDelete").hidden = true;
-  document.getElementById("sheetTitle").textContent = t("addExpense");
+  formType = "expense";
+  syncFormTypeUI();
+  buildCategoryGrid();
 
   if (id) editExpense(id);
 
@@ -1014,6 +1220,8 @@ function filteredExpenses() {
   }
 
   if (f.cat && f.cat !== "all") list = list.filter((e) => e.category === f.cat);
+  if (f.type && f.type !== "all")
+    list = list.filter((e) => entryType(e) === f.type);
   if (f.month) list = list.filter((e) => String(e.date).startsWith(f.month));
   if (f.date) list = list.filter((e) => e.date === f.date);
 
@@ -1025,15 +1233,18 @@ function filteredExpenses() {
 
 function txItemHtml(e) {
   const meta = categoryMeta(e.category);
+  const type = entryType(e);
+  const isIncome = type === "income";
   const note = e.note ? esc(e.note) : esc(categoryLabel(e.category));
+  const amount = esc(formatCurrency(e.amount));
   return `
-    <button class="tx-item" onclick="openExpenseSheet('${esc(e.id)}')" aria-label="${esc(note)} ${esc(formatCurrency(e.amount))}">
+    <button class="tx-item" onclick="openExpenseSheet('${esc(e.id)}')" aria-label="${esc(note)} ${isIncome ? "+" : "-"}${amount}">
       <span class="tx-ico" style="background:${meta.soft}">${meta.emoji}</span>
       <span class="tx-main">
         <span class="tx-title">${note}</span>
-        <span class="tx-sub">${esc(categoryLabel(e.category))}</span>
+        <span class="tx-sub">${esc(categoryLabel(e.category))} · ${esc(t(type))}</span>
       </span>
-      <span class="tx-amount">-${esc(formatCurrency(e.amount))}</span>
+      <span class="tx-amount ${isIncome ? "income" : ""}">${isIncome ? "+" : "-"}${amount}</span>
     </button>`;
 }
 
@@ -1067,19 +1278,23 @@ function renderTransactions() {
     if (f.date) {
       summary.hidden = false;
       summaryText.innerHTML = `<b>${esc(t("resultOn"))}</b> ${esc(formatDayLabel(f.date))} · ${trxCount(list.length)}`;
-      summaryTotal.textContent = formatCurrency(sum(list));
+      summaryTotal.textContent = formatCurrency(totalsOf(list).net);
     } else if (f.month) {
       summary.hidden = false;
       summaryText.innerHTML = `<b>${esc(t("monthFilter"))}</b> ${esc(formatMonthLabel(f.month))} · ${trxCount(list.length)}`;
-      summaryTotal.textContent = formatCurrency(sum(list));
+      summaryTotal.textContent = formatCurrency(totalsOf(list).net);
     } else if (f.cat !== "all") {
       summary.hidden = false;
       summaryText.innerHTML = `<b>${esc(t("filterCategory"))}</b> ${esc(categoryLabel(f.cat))} · ${trxCount(list.length)}`;
-      summaryTotal.textContent = formatCurrency(sum(list));
+      summaryTotal.textContent = formatCurrency(totalsOf(list).net);
+    } else if (f.type !== "all") {
+      summary.hidden = false;
+      summaryText.innerHTML = `<b>${esc(t("type"))}</b> ${esc(t(f.type))} · ${trxCount(list.length)}`;
+      summaryTotal.textContent = formatCurrency(totalsOf(list).net);
     } else if (f.search) {
       summary.hidden = false;
       summaryText.innerHTML = `<b>${esc(trxCount(list.length))}</b>`;
-      summaryTotal.textContent = formatCurrency(sum(list));
+      summaryTotal.textContent = formatCurrency(totalsOf(list).net);
     } else {
       summary.hidden = true;
     }
@@ -1107,7 +1322,7 @@ function renderTransactions() {
         <div class="tx-day">
           <div class="tx-day-head">
             <span>${esc(formatDayLabel(date))}</span>
-            <span class="tx-day-total">${esc(formatCurrency(sum(items)))}</span>
+            <span class="tx-day-total">${esc(formatCurrency(totalsOf(items).net))}</span>
           </div>
           <div class="tx-list">${items.map(txItemHtml).join("")}</div>
         </div>`;
@@ -1120,7 +1335,7 @@ function buildCategoryGrid() {
   const grid = document.getElementById("catGrid");
   if (!grid) return;
 
-  grid.innerHTML = categoryList
+  grid.innerHTML = categoriesFor(formType)
     .map((cat) => {
       const meta = categoryMeta(cat);
       return `
@@ -1146,13 +1361,44 @@ function markCategory(cat) {
   });
 }
 
+function setFormType(type) {
+  formType = type === "income" ? "income" : "expense";
+
+  // Kategori lama tidak selalu ada di jenis baru
+  const current = document.getElementById("inputCategory")?.value;
+  if (current && categoryType(current) !== formType) {
+    document.getElementById("inputCategory").value = "";
+  }
+
+  syncFormTypeUI();
+  buildCategoryGrid();
+  updateSheetMode();
+}
+
+function syncFormTypeUI() {
+  const isIncome = formType === "income";
+
+  document
+    .getElementById("typeExpenseBtn")
+    ?.classList.toggle("active", !isIncome);
+  document
+    .getElementById("typeIncomeBtn")
+    ?.classList.toggle("active", isIncome);
+  document.getElementById("amountBox")?.classList.toggle("income", isIncome);
+}
+
 function updateSheetMode() {
   const id = document.getElementById("editId")?.value || "";
   const title = document.getElementById("sheetTitle");
   const submit = document.querySelector("#btnSubmit span");
   const del = document.getElementById("btnDelete");
+  const isIncome = formType === "income";
 
-  if (title) title.textContent = id ? t("editExpense") : t("addExpense");
+  if (title) {
+    title.textContent = id
+      ? t(isIncome ? "editIncome" : "editExpense")
+      : t(isIncome ? "addIncome" : "addExpense");
+  }
   if (submit) submit.textContent = id ? t("update") : t("save");
   if (del) del.hidden = !id;
 }
@@ -1193,7 +1439,7 @@ function handleSubmit(e) {
     );
     return;
   }
-  if (!categories[category]) {
+  if (!categories[category] || categoryType(category) !== formType) {
     showToast(t("selectCategory"));
     return;
   }
@@ -1204,7 +1450,14 @@ function handleSubmit(e) {
   if (editId) {
     const idx = expenses.findIndex((ex) => ex.id === editId);
     if (idx !== -1) {
-      expenses[idx] = { ...expenses[idx], amount, category, note, date };
+      expenses[idx] = {
+        ...expenses[idx],
+        amount,
+        category,
+        note,
+        date,
+        type: formType,
+      };
     }
     showToast(t("updated"));
   } else {
@@ -1214,6 +1467,7 @@ function handleSubmit(e) {
       category,
       note,
       date,
+      type: formType,
       createdAt: Date.now(),
     });
     showToast(t("saved"));
@@ -1239,6 +1493,8 @@ function editExpense(id) {
   const expense = getExpenses().find((e) => e.id === id);
   if (!expense) return;
 
+  formType = entryType(expense);
+
   document.getElementById("inputAmount").value = Number(
     expense.amount,
   ).toLocaleString("id-ID");
@@ -1247,6 +1503,8 @@ function editExpense(id) {
   document.getElementById("inputDate").value = expense.date;
   document.getElementById("editId").value = expense.id;
 
+  syncFormTypeUI();
+  buildCategoryGrid();
   markCategory(expense.category);
   updateSheetMode();
 }
@@ -1308,6 +1566,7 @@ function sharePeriodLabel(f) {
   if (f.date) return formatDayLabel(f.date);
   if (f.month) return formatMonthLabel(f.month);
   if (f.cat && f.cat !== "all") return categoryLabel(f.cat);
+  if (f.type && f.type !== "all") return t(f.type);
   if (f.search) return `"${f.search}"`;
   return t("allData");
 }
@@ -1318,25 +1577,40 @@ function buildShareMessage(list, label, singleDate, withDetails) {
     dateStyle: "long",
     timeStyle: "short",
   });
+  const totals = totalsOf(list);
 
-  let msg = `💰 *Money Management — ${t("report")}*\n\n`;
+  let msg = `💰 *${t("appName")} — ${t("report")}*\n\n`;
   msg += `📅 ${t("dataLabel")}: ${label}\n`;
-  msg += `🕐 ${t("pulledLabel")}: ${pulledAt}\n\n`;
+  msg += `🕐 ${t("pulledLabel")}: ${pulledAt}\n`;
 
-  const totals = {};
-  list.forEach((e) => {
-    totals[e.category] = (totals[e.category] || 0) + (Number(e.amount) || 0);
-  });
+  const sections = [
+    { type: "income", key: "totalIn", emoji: "💵" },
+    { type: "expense", key: "totalOut", emoji: "💸" },
+  ];
 
-  Object.entries(totals)
-    .sort((a, b) => b[1] - a[1])
-    .forEach(([cat, total]) => {
-      msg += `${categoryMeta(cat).emoji} ${categoryLabel(cat)}: ${formatCurrency(total)}\n`;
+  sections.forEach((section) => {
+    const items = list.filter((e) => entryType(e) === section.type);
+    if (items.length === 0) return;
+
+    msg += `\n${section.emoji} *${t(section.key)}*: ${formatCurrency(sum(items))}\n`;
+
+    const byCat = {};
+    items.forEach((e) => {
+      byCat[e.category] = (byCat[e.category] || 0) + (Number(e.amount) || 0);
     });
 
+    Object.entries(byCat)
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([cat, total]) => {
+        msg += `${categoryMeta(cat).emoji} ${categoryLabel(cat)}: ${formatCurrency(total)}\n`;
+      });
+  });
+
   msg += `\n━━━━━━━━━━━━━━━━━━\n`;
-  msg += `*TOTAL: ${formatCurrency(sum(list))}*\n`;
-  msg += `📊 ${trxCount(list.length)}\n`;
+  msg += `*${t("totalIn")}: ${formatCurrency(totals.income)}*\n`;
+  msg += `*${t("totalOut")}: ${formatCurrency(totals.expense)}*\n`;
+  msg += `*${t("totalBalance")}: ${formatCurrency(totals.net)}*\n`;
+  msg += `📊 ${flowText(totals)}\n`;
 
   if (withDetails) {
     msg += `\n`;
@@ -1345,14 +1619,18 @@ function buildShareMessage(list, label, singleDate, withDetails) {
       const MAX = 25;
       msg += `📋 ${t("details")}:\n`;
       list.slice(0, MAX).forEach((e) => {
-        msg += `• ${e.note || categoryLabel(e.category)} — ${formatCurrency(e.amount)}\n`;
+        const sign = entryType(e) === "income" ? "+" : "-";
+        msg += `• ${e.note || categoryLabel(e.category)} — ${sign}${formatCurrency(e.amount)}\n`;
       });
       if (list.length > MAX)
         msg += `• … +${list.length - MAX} ${t("andMore")}\n`;
     } else {
       const byDay = {};
       list.forEach((e) => {
-        byDay[e.date] = (byDay[e.date] || 0) + (Number(e.amount) || 0);
+        const amount = Number(e.amount) || 0;
+        byDay[e.date] =
+          (byDay[e.date] || 0) +
+          (entryType(e) === "income" ? amount : -amount);
       });
 
       const days = Object.keys(byDay).sort((a, b) => b.localeCompare(a));
@@ -1367,7 +1645,7 @@ function buildShareMessage(list, label, singleDate, withDetails) {
     }
   }
 
-  msg += `\n_${currentLang === "id" ? "Dikirim dari" : "Sent from"} Money Management 📱`;
+  msg += `\n_${currentLang === "id" ? "Dikirim dari" : "Sent from"} ${t("appName")} 📱`;
   return msg;
 }
 
@@ -1408,7 +1686,8 @@ function shareToWA(scope = "all") {
         timeStyle: "short",
       },
     );
-    msg = `💰 *Money Management — ${t("report")}*\n📅 ${t("dataLabel")}: ${label}\n🕐 ${t("pulledLabel")}: ${pulledAt}\n\n*TOTAL: ${formatCurrency(sum(list))}*\n📊 ${trxCount(list.length)}`;
+    const totals = totalsOf(list);
+    msg = `💰 *${t("appName")} — ${t("report")}*\n📅 ${t("dataLabel")}: ${label}\n🕐 ${t("pulledLabel")}: ${pulledAt}\n\n*${t("totalIn")}: ${formatCurrency(totals.income)}*\n*${t("totalOut")}: ${formatCurrency(totals.expense)}*\n*${t("totalBalance")}: ${formatCurrency(totals.net)}*\n📊 ${flowText(totals)}`;
   }
 
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");

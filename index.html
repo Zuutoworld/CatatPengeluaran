@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>Money Management — Catat Pengeluaran Harian</title>
+    <title>Money Management — Catat Pemasukan & Pengeluaran</title>
     <meta
       name="description"
-      content="Aplikasi pencatat pengeluaran harian. Ringan, tanpa backend, data tersimpan di browser kamu."
+      content="Aplikasi pencatat pemasukan dan pengeluaran harian. Ringan, tanpa backend, data tersimpan di browser kamu."
     />
 
     <!-- PWA -->
@@ -577,6 +577,10 @@
         white-space: nowrap;
       }
 
+      .tx-amount.income {
+        color: var(--green);
+      }
+
       /* ---------- Empty state ---------- */
       .empty {
         text-align: center;
@@ -786,6 +790,23 @@
         background: var(--surface);
         color: var(--brand);
         box-shadow: 0 2px 8px rgba(16, 32, 64, 0.1);
+      }
+
+      .segmented.full {
+        display: flex;
+        width: 100%;
+      }
+
+      .segmented.full button {
+        flex: 1;
+      }
+
+      .segmented button.active.income {
+        color: var(--green);
+      }
+
+      .type-seg {
+        margin-bottom: 13px;
       }
 
       html.dark .segmented button.active {
@@ -1096,6 +1117,15 @@
         font-size: 17px;
         font-weight: 700;
         color: var(--muted);
+      }
+
+      .amount-box.income {
+        background: rgba(16, 185, 129, 0.08);
+        border-color: rgba(16, 185, 129, 0.28);
+      }
+
+      .amount-box.income span {
+        color: var(--green);
       }
 
       .amount-box input {
@@ -1459,7 +1489,7 @@
         <section class="view" id="view-home">
           <div class="hero">
             <div class="hero-top">
-              <span data-i18n="monthSpending">Pengeluaran bulan ini</span>
+              <span data-i18n="monthBalance">Saldo bulan ini</span>
               <span class="hero-month" id="heroMonth">—</span>
             </div>
             <div class="hero-total" id="heroTotal">Rp 0</div>
@@ -1473,11 +1503,28 @@
                   stroke="currentColor"
                   stroke-width="2.4"
                   stroke-linecap="round"
+                  stroke-linejoin="round"
                 >
-                  <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <path d="M12 4v13m0 0l5-5m-5 5l-5-5" />
                 </svg>
-                <span data-i18n="today">Hari ini</span>
-                <b id="heroToday">Rp 0</b>
+                <span data-i18n="income">Masuk</span>
+                <b id="heroIncome">Rp 0</b>
+              </span>
+              <span class="hero-chip">
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 20V7m0 0l-5 5m5-5l5 5" />
+                </svg>
+                <span data-i18n="expense">Keluar</span>
+                <b id="heroExpense">Rp 0</b>
               </span>
               <span class="hero-chip" id="heroCount">0 transaksi</span>
             </div>
@@ -1502,10 +1549,10 @@
                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                   </svg>
                 </div>
-                <span class="stat-label" data-i18n="today">Hari ini</span>
+                <span class="stat-label" data-i18n="balanceToday">Saldo hari ini</span>
               </div>
               <p class="stat-value" id="statToday">Rp 0</p>
-              <p class="stat-count" id="statTodayCount">0 transaksi</p>
+              <p class="stat-count" id="statTodayCount">0 masuk · 0 keluar</p>
             </div>
             <div class="stat-card">
               <div class="stat-top">
@@ -1528,10 +1575,10 @@
                     <path d="M8 3v4M16 3v4M3 11h18" />
                   </svg>
                 </div>
-                <span class="stat-label" data-i18n="thisWeek">Minggu ini</span>
+                <span class="stat-label" data-i18n="balanceWeek">Saldo minggu ini</span>
               </div>
               <p class="stat-value" id="statWeek">Rp 0</p>
-              <p class="stat-count" id="statWeekCount">0 transaksi</p>
+              <p class="stat-count" id="statWeekCount">0 masuk · 0 keluar</p>
             </div>
             <div class="stat-card">
               <div class="stat-top">
@@ -1553,10 +1600,10 @@
                     <path d="M4 19V9m5 10V5m5 14v-7m5 7V8" />
                   </svg>
                 </div>
-                <span class="stat-label" data-i18n="thisMonth">Bulan ini</span>
+                <span class="stat-label" data-i18n="monthIncome">Pemasukan bulan ini</span>
               </div>
-              <p class="stat-value" id="statMonth">Rp 0</p>
-              <p class="stat-count" id="statMonthCount">0 transaksi</p>
+              <p class="stat-value" id="statIncome">Rp 0</p>
+              <p class="stat-count" id="statIncomeCount">0 transaksi</p>
             </div>
             <div class="stat-card">
               <div class="stat-top">
@@ -1581,10 +1628,10 @@
                     <path d="M16 12h.01" />
                   </svg>
                 </div>
-                <span class="stat-label" data-i18n="total">Total</span>
+                <span class="stat-label" data-i18n="monthExpense">Pengeluaran bulan ini</span>
               </div>
-              <p class="stat-value" id="statTotal">Rp 0</p>
-              <p class="stat-count" id="statTotalCount">0 transaksi</p>
+              <p class="stat-value" id="statExpense">Rp 0</p>
+              <p class="stat-count" id="statExpenseCount">0 transaksi</p>
             </div>
           </div>
 
@@ -1624,11 +1671,30 @@
             </div>
           </div>
 
+          <div class="segmented full" id="statTypeSeg" style="margin-bottom: 12px">
+            <button
+              id="statExpenseBtn"
+              class="active"
+              onclick="setStatType('expense')"
+              data-i18n="expense"
+            >
+              Pengeluaran
+            </button>
+            <button
+              id="statIncomeBtn"
+              class="income"
+              onclick="setStatType('income')"
+              data-i18n="income"
+            >
+              Pemasukan
+            </button>
+          </div>
+
           <div class="card chart-card">
             <div class="donut-wrap">
               <canvas id="expenseChart"></canvas>
               <div class="donut-center" id="donutCenter">
-                <span data-i18n="thisMonth">Bulan ini</span>
+                <span id="donutLabel">Bulan ini</span>
                 <b id="donutTotal">Rp 0</b>
               </div>
             </div>
@@ -1848,7 +1914,7 @@
 
           <div class="card about-text">
             <b>Money Management</b> ·
-            <span data-i18n="version">Versi</span> 1.0<br />
+            <span data-i18n="version">Versi</span> 2.0<br />
             <span data-i18n="footerMsg">Data tersimpan di browser boy</span> 🔒
           </div>
         </section>
@@ -1980,7 +2046,28 @@
       </div>
 
       <form id="expenseForm" onsubmit="handleSubmit(event)">
-        <div class="amount-box">
+        <div class="segmented full type-seg" id="typeSeg">
+          <button
+            type="button"
+            id="typeExpenseBtn"
+            class="active"
+            onclick="setFormType('expense')"
+            data-i18n="expense"
+          >
+            Pengeluaran
+          </button>
+          <button
+            type="button"
+            id="typeIncomeBtn"
+            class="income"
+            onclick="setFormType('income')"
+            data-i18n="income"
+          >
+            Pemasukan
+          </button>
+        </div>
+
+        <div class="amount-box" id="amountBox">
           <span>Rp</span>
           <input
             type="text"
@@ -2091,6 +2178,38 @@
             <path d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
+      </div>
+
+      <div class="field">
+        <label class="label" data-i18n="type">Jenis</label>
+        <div class="segmented full" id="filterTypeSeg">
+          <button
+            type="button"
+            id="filterTypeAllBtn"
+            class="active"
+            onclick="setFilterType('all')"
+            data-i18n="allTypes"
+          >
+            Semua
+          </button>
+          <button
+            type="button"
+            id="filterTypeExpenseBtn"
+            onclick="setFilterType('expense')"
+            data-i18n="expense"
+          >
+            Pengeluaran
+          </button>
+          <button
+            type="button"
+            id="filterTypeIncomeBtn"
+            class="income"
+            onclick="setFilterType('income')"
+            data-i18n="income"
+          >
+            Pemasukan
+          </button>
+        </div>
       </div>
 
       <div class="field">

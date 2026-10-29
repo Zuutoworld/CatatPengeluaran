@@ -1,7 +1,7 @@
 {
-  "name": "Catat Duit — Catat Pengeluaran Harian",
-  "short_name": "Catat Duit",
-  "description": "Aplikasi pencatat pengeluaran harian. Ringan, tanpa backend, data tersimpan di browser kamu.",
+  "name": "Money Management — Catat Pemasukan & Pengeluaran",
+  "short_name": "Money Management",
+  "description": "Aplikasi pencatat pemasukan dan pengeluaran harian. Ringan, tanpa backend, data tersimpan di browser kamu.",
   "lang": "id",
   "dir": "ltr",
   "id": "./",
